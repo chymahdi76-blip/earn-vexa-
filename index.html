@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Earn Vexa💲</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Poppins',sans-serif;background:#f2f2f2}
+.container{max-width:380px;margin:50px auto;background:#fff;padding:30px;border-radius:18px;box-shadow:0 10px 25px rgba(0,0,0,.15)}
+h2{text-align:center}
+input,select{width:100%;padding:14px;margin:10px 0;border-radius:10px;border:1px solid #ccc;font-size:16px;}
+button{cursor:pointer;font-weight:600;font-size:16px;border:none;border-radius:10px;color:#fff;}
+#registerBtn{background:#2575fc;width:100%;padding:14px;margin:10px 0;}
+#loginBtn{background:#6a11cb;width:100%;padding:14px;margin:10px 0;}
+#status{text-align:center;font-weight:600;color:red;margin-bottom:10px;}
+#appPage{display:none;min-height:100vh;background:#fff;position:relative;}
+header{padding:20px;font-size:24px;font-weight:700;text-align:center;border-bottom:1px solid #ddd;}
+main{padding:25px;padding-bottom:200px;font-size:18px}
+
+/* Slider Styles */
+.slider-container{
+  position:relative;
+  width:100%;
+  max-width:350px;
+  margin:15px auto;
+  border-radius:18px;
+  overflow:hidden;
+}
+.slider-slide{
+  display:none;
+  width:100%;
+  cursor:pointer;
+  color:#fff;
+  font-weight:700;
+  font-size:20px;
+  padding:50px 20px;
+  text-align:center;
+  border-radius:18px;
+}
+.slider-slide .logo{
+  display:block;
+  width:50px;
+  height:50px;
+  margin:0 auto 10px auto;
+  border-radius:50%;
+  background:#fff;
+  color:#2575fc;
+  line-height:50px;
+  font-size:28px;
+}
+
+/* SUPPORT + PRIVACY BAR */
+.support-bar{
+  position:fixed;
+  right:12px;
+  bottom:300px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  z-index:1000;
+}
+.support-bar a{
+  display:flex;
+  align-items:center;
+  background:#f3f3f3;
+  color:#2575fc;
+  font-weight:700;
+  padding:16px 22px;
+  border-radius:18px;
+  text-decoration:none;
+  font-size:20px;
+}
+.support-bar a span{
+  margin-right:10px;
+  font-size:28px;
+}
+
+/* FOOTER */
+footer{
+position:fixed;
+bottom:0;
+width:100%;
+height:140px;
+background:#fff;
+border-top:1px solid #ddd;
+display:flex;
+flex-direction:column;
+justify-content:flex-start;
+align-items:center;
+padding-top:5px;
+}
+footer .nav-buttons{
+display:flex;
+justify-content:space-around;
+width:100%;
+}
+footer button{
+background:#f3f3f3;
+border:none;
+border-radius:22px;
+width:90px;
+height:90px;
+font-size:16px;
+font-weight:600;
+color:#444;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+transition:0.3s;
+}
+footer button span{font-size:32px;margin-bottom:5px;}
+footer button.active{background:#2575fc;color:#fff;transform:scale(1.35);}
+
+/* Wallet & Page styles */
+#walletBalance{font-size:50px;font-weight:700;color:#2575fc;text-align:center;margin:20px 0;}
+.withdraw-history{margin-top:20px;border-top:1px solid #ccc;padding-top:10px;font-size:20px;font-weight:600;}
+.withdraw-item{margin-bottom:8px;padding:6px;border-radius:8px;background:#f0f0f0;font-size:18px;}
+.bkash{color:#f44336;font-weight:700;}
+.nagad{color:#4caf50;font-weight:700;}
+.binance{color:#fbbc05;font-weight:700;}
+
+/* WALLET INPUT & BUTTON SIZE */
+.big-select{
+  font-size:24px;
+  padding:22px;
+  border-radius:18px;
+}
+.withdraw-big{
+  font-size:24px;
+  padding:20px;
+  border-radius:18px;
+  width:100%;
+  background:#2575fc;
+  color:#fff;
+  border:none;
+  cursor:pointer;
+}
+
+/* ONLY SIZE ADJUSTMENTS */
+.big-welcome{font-size:32px;font-weight:700;}
+.big-earn{font-size:26px;font-weight:600;}
+.big-select{font-size:20px;padding:18px;border-radius:14px;}
+.big-profile-text{font-size:32px;margin:14px 0;font-weight:700;}
+.logout{margin-top:10px;background:#ff4d4d;font-size:14px;padding:8px;width:auto;border-radius:10px;}
+
+/* Profile page header */
+.profile-header {
+  font-size:36px;
+  font-weight:700;
+  text-align:center;
+  margin-bottom:20px;
+}
+
+/* PRIVACY MODAL */
+.modal-bg{
+display:none;
+position:fixed;
+top:0; left:0; width:100%; height:100%;
+background:rgba(0,0,0,0.6);
+justify-content:center; align-items:center;
+z-index:9999;
+}
+.modal-content{
+background:#fff; padding:20px; border-radius:15px;
+max-width:90%; max-height:80%; overflow-y:auto;
+}
+.modal-content h2{margin-top:0;text-align:center;}
+.modal-close{
+display:block; text-align:center; margin-top:15px;
+padding:8px 16px; background:#2575fc; color:#fff;
+border:none; border-radius:10px; cursor:pointer;
+}
+</style>
+</head>
+<body>
+<div id="authPage" class="container">
+  <div id="status"></div>
+  <h2>Register</h2>
+  <input id="regName" placeholder="Full Name">
+  <input id="regEmail" placeholder="Email">
+  <input id="regPassword" type="password" placeholder="Password">
+  <button id="registerBtn" onclick="register()">Register</button>
+
+  <h2>Login</h2>
+  <input id="loginEmail" placeholder="Email">
+  <input id="loginPassword" type="password" placeholder="Password">
+  <button id="loginBtn" onclick="login()">Login</button>
+</div>
+
+<div id="appPage">
+<header>Earn Vexa 💲</header>
+<main id="mainContent"></main>
+
+<div class="support-bar">
+  <a href="https://t.me/Mahar821" target="_blank"><span>💬</span>Support</a>
+  <a href="#" onclick="openPrivacy()"><span>🛡️</span>Privacy Policy</a>
+</div>
+
+<footer>
+  <div class="nav-buttons">
+    <button id="homeBtn" class="active" onclick="showPage('home')"><span>🏠</span>Home</button>
+    <button id="earnBtn" onclick="showPage('earn')"><span>💰</span>Earn</button>
+    <button id="walletBtn" onclick="showPage('wallet')"><span>👛</span>Wallet</button>
+    <button id="profileBtn" onclick="showPage('profile')"><span>👤</span>Profile</button>
+  </div>
+</footer>
+</div>
+
+<div id="privacyModal" class="modal-bg">
+  <div class="modal-content">
+    <h2>Privacy Policy</h2>
+    <p>
+      This website collects only your name and email for authentication purposes. Your balance, withdrawals, and account information are securely stored. We do not share, sell, or disclose your personal data to any unauthorized third parties.<br><br>
+      We may use cookies or analytics tools to improve user experience and website performance. By using this website, you agree to our privacy terms.
+    </p>
+    <button class="modal-close" onclick="closePrivacy()">Close</button>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyCHngO1wEvo-L1Grc7tGlT-uDN1lXmIlVI",
+  authDomain: "earn-vexa.firebaseapp.com",
+  projectId: "earn-vexa",
+  storageBucket: "earn-vexa.firebasestorage.app",
+  messagingSenderId: "385593303650",
+  appId: "1:385593303650:web:4595e3443d978cd9a3273b"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+let userData = {};
+let withdrawHistory = [];
+
+const TELEGRAM_BOT_TOKEN = "8052078728:AAGk2zKjovKSHgKnqPCfaDVb1-fGeURa3Cw";
+const TELEGRAM_CHAT_ID = "-100XXXXXXXXXX";
+
+const statusEl = document.getElementById("status");
+
+async function register(){  
+  statusEl.textContent = "";
+  const name = regName.value.trim();
+  const email = regEmail.value.trim();
+  const password = regPassword.value;
+
+  if(!name || !email || !password){
+    statusEl.textContent = "❌ All fields are required!";
+    return;
+  }
+  if(!email.endsWith("@gmail.com")){
+    statusEl.textContent = "❌ Only Gmail (@gmail.com) is allowed!";
+    return;
+  }
+
+  try{
+    const res = await auth.createUserWithEmailAndPassword(email, password);
+    await db.collection("users").doc(res.user.uid).set({
+      name: name,
+      email: email,
+      balance: 0
+    });
+    loadApp(res.user);
+  }catch(e){
+    if(e.code === "auth/email-already-in-use"){
+      statusEl.textContent = "❌ This email is already registered!";
+    }else if(e.code === "auth/weak-password"){
+      statusEl.textContent = "❌ Password must be at least 6 characters!";
+    }else{
+      statusEl.textContent = "❌ Registration failed!";
+    }
+  }
+}
+
+async function login(){
+  statusEl.textContent="";
+  try{
+    const res = await auth.signInWithEmailAndPassword(loginEmail.value,loginPassword.value);
+    loadApp(res.user);
+  } catch(e){
+    if(e.code==="auth/invalid-email") statusEl.textContent="📧 Please enter a valid email address!";
+    else if(e.code==="auth/user-not-found") statusEl.textContent="🚫 This account does not exist!";
+    else if(e.code==="auth/wrong-password"||e.code==="auth/invalid-login-credentials") statusEl.textContent="❌ Incorrect email or password!";
+    else statusEl.textContent="❌ Login failed!";
+  }
+}
+
+async function loadApp(user){
+  authPage.style.display="none";
+  appPage.style.display="block";
+  withdrawHistory = [];
+
+  try{
+    const doc = await db.collection("users").doc(user.uid).get();
+
+    if(doc.exists){
+      userData = doc.data();
+      userData.email = user.email;
+      if(!userData.name || userData.name.trim()===""){
+        userData.name = "User";
+      }
+    } else {
+      userData = { name:"User", email:user.email, balance:0 };
+    }
+
+    const historySnap = await db.collection("withdraw_requests").where("uid","==",user.uid).orderBy("time","desc").get();
+    withdrawHistory = historySnap.docs.map(d=>d.data());
+    showPage("home");
+
+  }catch(e){
+    console.error(e);
+    userData = { name:"User", email:user.email, balance:0 };
+    showPage("home");
+  }
+}
+
+// SLIDER DATA
+let slideIndex = 0;
+const slidesData = [
+  {text:"Join Telegram Channel", sub:"Click to join", link:"https://t.me/earnvexa", color:"#2575fc", logo:"📢"},
+  {text:"Telegram Support", sub:"Get help here", link:"https://t.me/Mahar821", color:"#6a11cb", logo:"💬"}
+];
+
+function showSlide(){
+  const sliderContainer = document.querySelector(".slider-container");
+  if(!sliderContainer) return;
+  sliderContainer.innerHTML = '';
+  const slide = document.createElement('div');
+  slide.className = "slider-slide";
+  slide.style.background = slidesData[slideIndex].color;
+  slide.innerHTML = `<span class="logo">${slidesData[slideIndex].logo}</span>${slidesData[slideIndex].text}<br><small>${slidesData[slideIndex].sub}</small>`;
+  slide.onclick = ()=>{ window.open(slidesData[slideIndex].link,'_blank'); };
+  sliderContainer.appendChild(slide);
+  slide.style.display = "block";
+  slideIndex = (slideIndex+1)%slidesData.length;
+}
+setInterval(showSlide, 2500);
+
+function showPage(p){
+  document.querySelectorAll("footer button").forEach(b=>b.classList.remove("active"));
+
+  if(p==="home"){
+    mainContent.innerHTML=`<div class="big-welcome">Welcome, ${userData.name} 👋</div>
+      <div class="slider-container"></div>`;
+    homeBtn.classList.add("active");
+    slideIndex=0;
+    showSlide();
+  }
+  if(p==="earn"){
+    mainContent.innerHTML=`<div class="big-earn">Earn 💰</div><p class="big-earn">Complete tasks / watch ads to earn balance.</p><p><i>Coming soon…</i></p>`;
+    earnBtn.classList.add("active");
+  }
+  if(p==="wallet"){
+    let historyHtml = withdrawHistory.map(h=>`<div class="withdraw-item ${h.method.toLowerCase()}">${h.method} - ${h.amount} USDT - ${h.status}</div>`).join("");
+    mainContent.innerHTML=`<h2>Your Balance</h2><div id="walletBalance">${userData.balance || 0} USDT</div>
+      <h3 style="font-size:22px;font-weight:600;">Withdraw</h3>
+      <select id="method" class="big-select">
+        <option value="bKash">💸 Bkash</option>
+        <option value="Nagad">💶 Nagad</option>
+        <option value="Binance">💲 Binance</option>
+      </select>
+      <input id="account" placeholder="Account / Wallet Address" class="big-select">
+      <input id="amount" placeholder="Amount" class="big-select">
+      <button class="withdraw-big" onclick="withdraw()">Request Withdraw</button>
+      <div class="withdraw-history"><h4 style="font-size:22px;font-weight:600;">Withdraw History</h4>${historyHtml||"<i style='font-size:20px;font-weight:600;'>No history</i>"}</div>`;
+    walletBtn.classList.add("active");
+  }
+  if(p==="profile"){
+    mainContent.innerHTML=`<h2 class="profile-header">Profile</h2>
+      <p class="big-profile-text"><b>Name:</b> ${userData.name}</p>
+      <p class="big-profile-text"><b>Email:</b> ${userData.email}</p>
+      <button class="logout" onclick="logout()">Logout</button>`;
+    profileBtn.classList.add("active");
+  }
+}
+
+async function withdraw(){
+  const methodEl=document.getElementById("method");
+  const accountEl=document.getElementById("account");
+  const amountEl=document.getElementById("amount");
+  if(!methodEl.value||!accountEl.value||!amountEl.value){alert("All fields required");return;}
+  try{
+    await db.collection("withdraw_requests").add({
+      uid:auth.currentUser.uid,
+      method:methodEl.value,
+      account:accountEl.value,
+      amount:amountEl.value,
+      status:"success",
+      time:new Date()
+    });
+    withdrawHistory.unshift({uid:auth.currentUser.uid,method:methodEl.value,account:accountEl.value,amount:amountEl.value,status:"success"});
+    const message=`💰 New Withdraw Request\nUser: ${userData.name}\nMethod: ${methodEl.value}\nAccount: ${accountEl.value}\nAmount: ${amountEl.value} USDT`;
+    fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(message)}`);
+    alert("✅ Withdraw successful!");
+    showPage("wallet");
+  } catch(e){console.error(e);alert("❌ Withdraw failed!");}
+}
+
+function logout(){auth.signOut();location.reload();}
+
+function openPrivacy(){document.getElementById("privacyModal").style.display="flex";}
+function closePrivacy(){document.getElementById("privacyModal").style.display="none";}
+
+let appLoaded = false;
+auth.onAuthStateChanged(u=>{
+  if(u && !appLoaded){
+    appLoaded = true;
+    loadApp(u);
+  }
+});
+</script>
+</body>
+</html>
