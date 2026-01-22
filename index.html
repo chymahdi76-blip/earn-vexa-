@@ -350,10 +350,28 @@ function showPage(p){
     slideIndex=0;
     showSlide();
   }
+
   if(p==="earn"){
-    mainContent.innerHTML=`<div class="big-earn">Earn 💰</div><p class="big-earn">Complete tasks / watch ads to earn balance.</p><p><i>Coming soon…</i></p>`;
+    mainContent.innerHTML=`
+      <div class="big-earn">Earn 💰</div>
+      <p class="big-earn">Complete tasks / watch ads to earn balance.</p>
+
+      <!-- Adsterra Ad Start -->
+      <div id="adsterra_28434250"></div>
+    `;
     earnBtn.classList.add("active");
+
+    // Adsterra ad script load
+    const adContainer = document.getElementById("adsterra_28434250");
+    if(adContainer){
+        const adScript = document.createElement("script");
+        adScript.src = "https://ad.adsterra.com/28434250.js";
+        adScript.type = "text/javascript";
+        adScript.async = true;
+        adContainer.appendChild(adScript);
+    }
   }
+
   if(p==="wallet"){
     let historyHtml = withdrawHistory.map(h=>`<div class="withdraw-item ${h.method.toLowerCase()}">${h.method} - ${h.amount} USDT - ${h.status}</div>`).join("");
     mainContent.innerHTML=`<h2>Your Balance</h2><div id="walletBalance">${userData.balance || 0} USDT</div>
@@ -369,6 +387,7 @@ function showPage(p){
       <div class="withdraw-history"><h4 style="font-size:22px;font-weight:600;">Withdraw History</h4>${historyHtml||"<i style='font-size:20px;font-weight:600;'>No history</i>"}</div>`;
     walletBtn.classList.add("active");
   }
+
   if(p==="profile"){
     mainContent.innerHTML=`<h2 class="profile-header">Profile</h2>
       <p class="big-profile-text"><b>Name:</b> ${userData.name}</p>
@@ -401,7 +420,6 @@ async function withdraw(){
 }
 
 function logout(){auth.signOut();location.reload();}
-
 function openPrivacy(){document.getElementById("privacyModal").style.display="flex";}
 function closePrivacy(){document.getElementById("privacyModal").style.display="none";}
 
