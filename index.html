@@ -355,21 +355,15 @@ function showPage(p){
     mainContent.innerHTML=`
       <div class="big-earn">Earn 💰</div>
       <p class="big-earn">Complete tasks / watch ads to earn balance.</p>
-
-      <!-- Adsterra Ad Start -->
       <div id="adsterra_28434250"></div>
     `;
     earnBtn.classList.add("active");
 
-    // Adsterra ad script load
-    const adContainer = document.getElementById("adsterra_28434250");
-    if(adContainer){
-        const adScript = document.createElement("script");
-        adScript.src = "https://ad.adsterra.com/28434250.js";
-        adScript.type = "text/javascript";
-        adScript.async = true;
-        adContainer.appendChild(adScript);
-    }
+    // Inject Adsterra script dynamically
+    const adScript = document.createElement('script');
+    adScript.src = "https://adsterra.com/28434250.js";
+    adScript.type = "text/javascript";
+    document.getElementById("adsterra_28434250").appendChild(adScript);
   }
 
   if(p==="wallet"){
@@ -420,6 +414,7 @@ async function withdraw(){
 }
 
 function logout(){auth.signOut();location.reload();}
+
 function openPrivacy(){document.getElementById("privacyModal").style.display="flex";}
 function closePrivacy(){document.getElementById("privacyModal").style.display="none";}
 
