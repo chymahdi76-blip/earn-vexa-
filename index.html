@@ -301,6 +301,16 @@ async function loadApp(user){
 
     if(doc.exists){
       userData = doc.data();
+
+      // --- এই অংশটুকু নতুন যোগ করা হয়েছে (BAN CHECK) ---
+      if(userData.isBanned === true){
+          alert("🚫 Your account has been BANNED by Admin!");
+          auth.signOut(); // ইউজারকে লগআউট করে দেবে
+          location.reload(); // পেজ রিলোড হবে
+          return; // নিচের কোড আর কাজ করবে না
+      }
+      // ------------------------------------------------
+
       userData.email = user.email;
       if(!userData.name || userData.name.trim()===""){
         userData.name = "User";
@@ -315,6 +325,7 @@ async function loadApp(user){
 
   }catch(e){
     console.error(e);
+    // যদি কোনো এরর হয়, তবুও যাতে অ্যাপ ক্র্যাশ না করে
     userData = { name:"User", email:user.email, balance:0 };
     showPage("home");
   }
