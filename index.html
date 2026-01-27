@@ -21,9 +21,9 @@ main{padding:25px;padding-bottom:200px;font-size:18px}
 .toggle-auth{text-align:center; margin-top:15px; font-size:14px; color:#555;}
 .toggle-auth span{color:#2575fc; cursor:pointer; font-weight:600; text-decoration:underline;}
 
-/* Password View */
+/* --- Password View Feature CSS --- */
 .password-wrapper { position: relative; width: 100%; }
-.password-wrapper input { padding-right: 45px; } 
+.password-wrapper input { padding-right: 45px; } /* Eye icon space */
 .toggle-eye {
   position: absolute;
   right: 12px;
@@ -35,39 +35,45 @@ main{padding:25px;padding-bottom:200px;font-size:18px}
   user-select: none;
 }
 
-/* Slider */
+/* Slider Styles */
 .slider-container{position:relative;width:100%;max-width:350px;margin:15px auto;border-radius:18px;overflow:hidden;}
 .slider-slide{display:none;width:100%;cursor:pointer;color:#fff;font-weight:700;font-size:20px;padding:50px 20px;text-align:center;border-radius:18px;box-sizing:border-box;}
 .slider-slide .logo{display:block;width:50px;height:50px;margin:0 auto 10px auto;border-radius:50%;background:#fff;color:#2575fc;line-height:50px;font-size:28px;}
 
-/* Support & Footer */
+/* SUPPORT + PRIVACY BAR */
 .support-bar{position:fixed;right:12px;bottom:300px;display:flex;flex-direction:column;gap:16px;z-index:1000;}
 .support-bar a{display:flex;align-items:center;background:#f3f3f3;color:#2575fc;font-weight:700;padding:16px 22px;border-radius:18px;text-decoration:none;font-size:20px;}
 .support-bar a span{margin-right:10px;font-size:28px;}
 
+/* FOOTER */
 footer{position:fixed;bottom:0;width:100%;height:140px;background:#fff;border-top:1px solid #ddd;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;padding-top:5px;}
 footer .nav-buttons{display:flex;justify-content:space-around;width:100%;}
 footer button{background:#f3f3f3;border:none;border-radius:22px;width:90px;height:90px;font-size:16px;font-weight:600;color:#444;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:0.3s;}
 footer button span{font-size:32px;margin-bottom:5px;}
 footer button.active{background:#2575fc;color:#fff;transform:scale(1.35);}
 
-/* Wallet & Ads */
+/* Wallet & Page styles */
 #walletBalance{font-size:50px;font-weight:700;color:#2575fc;text-align:center;margin:20px 0;}
 .withdraw-history{margin-top:20px;border-top:1px solid #ccc;padding-top:10px;font-size:20px;font-weight:600;}
 .withdraw-item, .earn-link-item{margin-bottom:12px;padding:16px;border-radius:18px;background:#2575fc;color:#fff;font-weight:700;font-size:20px;text-align:center;cursor:pointer;transition:0.3s;}
-.withdraw-item:hover{background:#6a11cb;}
+.withdraw-item:hover, .earn-link-item:hover{background:#6a11cb;}
+.bkash{color:#f44336;font-weight:700;}
+.nagad{color:#4caf50;font-weight:700;}
+.binance{color:#fbbc05;font-weight:700;}
 
-/* Ad Container Styling */
+/* EARN PAGE AD STYLES */
 .ad-container { margin-bottom: 25px; text-align: center; }
-.banner-ad-box { background: #eef4ff; border: 3px solid #2575fc; border-radius: 18px; padding: 20px 15px; cursor: pointer; transition: 0.3s; position: relative; min-height: 260px; display: flex; flex-direction: column; align-items: center; justify-content: center;}
+.banner-ad-box { background: #eef4ff; border: 3px solid #2575fc; border-radius: 18px; padding: 20px 15px; cursor: default; transition: 0.3s; position: relative; min-height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center;}
 .ad-reward-tag { position: absolute; top: 10px; right: 15px; background: #ffd700; color: #000; padding: 5px 12px; font-weight: 700; border-radius: 10px; font-size: 14px; }
 .smart-link-box { background: #f9f9f9; border: 1px solid #6a11cb; border-radius: 12px; padding: 15px; margin: 10px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+.ad-title { font-size: 24px; font-weight: 700; color: #333; }
+.ad-subtitle { font-size: 14px; margin-top: 10px; color: #666; font-weight: 400; }
 
-/* Status Text for Ad */
-#autoAdStatus { font-weight: 700; color: #2575fc; margin-top: 15px; font-size: 16px; min-height: 24px;}
-
+/* WALLET INPUT & BUTTON SIZE */
 .big-select{font-size:24px;padding:22px;border-radius:18px;}
 .withdraw-big{font-size:24px;padding:20px;border-radius:18px;width:100%;background:#2575fc;color:#fff;border:none;cursor:pointer;}
+
+/* ONLY SIZE ADJUSTMENTS */
 .big-welcome{font-size:32px;font-weight:700;}
 .big-earn{font-size:28px;font-weight:700;}
 .big-earn-text{font-size:22px;font-weight:700;color:#444;margin-top:15px;line-height:1.5;}
@@ -75,6 +81,7 @@ footer button.active{background:#2575fc;color:#fff;transform:scale(1.35);}
 .logout{margin-top:10px;background:#ff4d4d;font-size:14px;padding:8px;width:auto;border-radius:10px;}
 .profile-header {font-size:36px;font-weight:700;text-align:center;margin-bottom:20px;}
 
+/* PRIVACY MODAL */
 .modal-bg{display:none;position:fixed;top:0; left:0; width:100%; height:100%;background:rgba(0,0,0,0.6);justify-content:center; align-items:center;z-index:9999;}
 .modal-content{background:#fff; padding:20px; border-radius:15px;max-width:90%; max-height:80%; overflow-y:auto;}
 .modal-content h2{margin-top:0;text-align:center;}
@@ -85,25 +92,34 @@ footer button.active{background:#2575fc;color:#fff;transform:scale(1.35);}
 
 <div id="authPage" class="container">
   <div id="status"></div>
+
+  <!-- Register Form -->
   <div id="registerBox">
     <h2>Register</h2>
     <input id="regName" placeholder="Full Name">
     <input id="regEmail" placeholder="Email">
+    
+    <!-- Password with Eye Icon -->
     <div class="password-wrapper">
       <input id="regPassword" type="password" placeholder="Password">
       <span class="toggle-eye" onclick="togglePassword('regPassword', this)">🙈</span>
     </div>
+    
     <button id="registerBtn" onclick="register()">Register</button>
     <div class="toggle-auth">Already have an account? <span onclick="showLogin()">Login</span></div>
   </div>
 
+  <!-- Login Form -->
   <div id="loginBox" style="display:none;">
     <h2>Login</h2>
     <input id="loginEmail" placeholder="Email">
+    
+    <!-- Password with Eye Icon -->
     <div class="password-wrapper">
       <input id="loginPassword" type="password" placeholder="Password">
       <span class="toggle-eye" onclick="togglePassword('loginPassword', this)">🙈</span>
     </div>
+    
     <button id="loginBtn" onclick="login()">Login</button>
     <div class="toggle-auth">Don't have an account? <span onclick="showRegister()">Register</span></div>
   </div>
@@ -128,10 +144,14 @@ footer button.active{background:#2575fc;color:#fff;transform:scale(1.35);}
 </footer>
 </div>
 
+<!-- Privacy Modal -->
 <div id="privacyModal" class="modal-bg">
   <div class="modal-content">
     <h2>Privacy Policy</h2>
-    <p>User data is secure. We use analytics to improve experience.</p>
+    <p>
+      This website collects only your name and email for authentication purposes. Your balance, withdrawals, and account information are securely stored. We do not share, sell, or disclose your personal data to any unauthorized third parties.<br><br>
+      We may use cookies or analytics tools to improve user experience and website performance. By using this website, you agree to our privacy terms.
+    </p>
     <button class="modal-close" onclick="closePrivacy()">Close</button>
   </div>
 </div>
@@ -162,12 +182,21 @@ const TELEGRAM_CHAT_ID = "-100XXXXXXXXXX";
 
 const statusEl = document.getElementById("status");
 
+// Function to Toggle Password Visibility
 function togglePassword(inputId, eyeIcon) {
   const passwordInput = document.getElementById(inputId);
-  if (passwordInput.type === "password") { passwordInput.type = "text"; eyeIcon.innerText = "👁️"; } 
-  else { passwordInput.type = "password"; eyeIcon.innerText = "🙈"; }
+  if (passwordInput.type === "password") {
+    // Show Password
+    passwordInput.type = "text";
+    eyeIcon.innerText = "👁️"; 
+  } else {
+    // Hide Password
+    passwordInput.type = "password";
+    eyeIcon.innerText = "🙈"; 
+  }
 }
 
+// Toggle Auth Pages
 function showLogin() {
   document.getElementById("registerBox").style.display = "none";
   document.getElementById("loginBox").style.display = "block";
@@ -185,51 +214,57 @@ async function register(){
   const email = regEmail.value.trim();
   const password = regPassword.value;
 
-  if(!name || !email || !password){ statusEl.textContent = "❌ All fields are required!"; return; }
-  if(!email.endsWith("@gmail.com")){ statusEl.textContent = "❌ Only Gmail (@gmail.com) is allowed!"; return; }
-  if(password.length < 6){ statusEl.textContent = "❌️ Password 6 chars min"; return; }
+  if(!name || !email || !password){ 
+    statusEl.textContent = "❌ All fields are required!"; 
+    return; 
+  }
+  if(!email.endsWith("@gmail.com")){ 
+    statusEl.textContent = "❌ Only Gmail (@gmail.com) is allowed!"; 
+    return; 
+  }
+  if(password.length < 6){
+    statusEl.textContent = "❌️Password should be at least 6 characters";
+    return;
+  }
 
   try{
     const res = await auth.createUserWithEmailAndPassword(email, password);
     await db.collection("users").doc(res.user.uid).set({
       name: name, email: email, balance: "0", isBanned: false
     });
-  }catch(e){ statusEl.textContent = "❌ Error: " + e.message; }
+  }catch(e){ 
+    if(e.code === 'auth/email-already-in-use'){
+      statusEl.textContent = "❌ Email already registered!";
+    } else {
+      statusEl.textContent = "❌ Error: " + e.message; 
+    }
+  }
 }
 
 async function login(){
   statusEl.textContent="";
   try{ await auth.signInWithEmailAndPassword(loginEmail.value,loginPassword.value); } 
-  catch(e){ statusEl.textContent="❌ Login failed!"; }
+  catch(e){ statusEl.textContent="❌ Login failed! Incorrect email or password."; }
 }
 
 async function loadApp(user){
   authPage.style.display="none";
   appPage.style.display="block";
-  
   if(userDocListener) userDocListener();
   userDocListener = db.collection("users").doc(user.uid).onSnapshot((doc) => {
       if(doc.exists){
           userData = doc.data();
-          if(userData.isBanned){ alert("🚫 Account Banned!"); logout(); return; }
+          if(userData.isBanned === true){ alert("🚫 Account Banned!"); logout(); return; }
           userData.email = user.email;
           if(document.getElementById("walletBalance")){
               document.getElementById("walletBalance").innerText = (userData.balance || 0) + " USDT";
           }
       }
   });
-
   try {
-      const historySnap = await db.collection("withdraw_requests")
-        .where("uid","==",user.uid)
-        .get(); 
-      
-      let rawData = historySnap.docs.map(d=>d.data());
-      withdrawHistory = rawData.sort((a,b) => {
-         return (b.time && b.time.seconds ? b.time.seconds : 0) - (a.time && a.time.seconds ? a.time.seconds : 0);
-      });
-  } catch(e) { console.log("History Error:", e); }
-  
+      const historySnap = await db.collection("withdraw_requests").where("uid","==",user.uid).orderBy("time","desc").get();
+      withdrawHistory = historySnap.docs.map(d=>d.data());
+  } catch(e) { console.log(e); }
   showPage("home");
 }
 
@@ -253,11 +288,9 @@ function showSlide(){
 }
 setInterval(showSlide, 2500);
 
-// --- REWARD HANDLING ---
-async function handleEarn(taskId, rewardAmount, url, autoMode = false) {
+async function handleEarn(taskId, rewardAmount, url) {
     const today = new Date().toISOString().split('T')[0];
     const uid = auth.currentUser.uid;
-    const userRef = db.collection("users").doc(uid);
     const taskRef = db.collection("user_ads").doc(uid);
 
     try {
@@ -265,81 +298,33 @@ async function handleEarn(taskId, rewardAmount, url, autoMode = false) {
         const data = doc.exists ? doc.data() : {};
 
         if (data[taskId] === today) {
-            if(!autoMode) alert("❌ Already claimed today!");
-            if(document.getElementById("autoAdStatus")) document.getElementById("autoAdStatus").innerHTML = "❌ Already claimed today.";
+            alert("❌ Already claimed today! Come back tomorrow.");
             if(url !== '#') window.open(url, '_blank');
             return;
         }
 
-        const userSnap = await userRef.get();
-        let currentBalance = 0;
-        if(userSnap.exists && userSnap.data().balance){
-            currentBalance = parseFloat(userSnap.data().balance);
-        }
-        
+        const currentBalance = parseFloat(userData.balance || 0);
         const newBalance = (currentBalance + rewardAmount).toFixed(7);
 
-        await userRef.set({ balance: newBalance.toString() }, { merge: true });
+        await db.collection("users").doc(uid).update({
+            balance: newBalance.toString()
+        });
 
         let updateObj = {};
         updateObj[taskId] = today;
         await taskRef.set(updateObj, { merge: true });
 
-        if(!autoMode) {
-             alert(`✅ Success! You earned ${rewardAmount} USDT.`);
-             if(url !== '#') window.open(url, '_blank');
-        } else {
-             if(document.getElementById("autoAdStatus")) {
-                 document.getElementById("autoAdStatus").innerHTML = `✅ Added ${rewardAmount} USDT!`;
-             }
-        }
+        alert(`✅ Success! You earned ${rewardAmount} USDT.`);
+        if(url !== '#') window.open(url, '_blank');
 
     } catch (error) {
         console.error("Earn Error:", error);
+        alert("❌ Error processing reward.");
     }
-}
-
-// --- NEW LOGIC: CLICK & RETURN DETECTION ---
-let isHoveringAd = false;
-let hasClickedAd = false;
-
-function initAdMonitor() {
-    const adBox = document.getElementById("bannerAdBox");
-    const statusBox = document.getElementById("autoAdStatus");
-    
-    if(!adBox) return;
-
-    // Detect if mouse is over the ad
-    adBox.addEventListener('mouseenter', () => { isHoveringAd = true; });
-    adBox.addEventListener('mouseleave', () => { isHoveringAd = false; });
-
-    // Step 1: Detect Click (User leaves the tab/window while hovering ad)
-    window.onblur = function() {
-        if (isHoveringAd) {
-            hasClickedAd = true;
-            statusBox.innerHTML = "👀 Checking... Return to this page!";
-        }
-    };
-
-    // Step 2: Detect Return (User comes back)
-    window.onfocus = function() {
-        if (hasClickedAd) {
-            statusBox.innerHTML = "🔄 Processing reward...";
-            // Add balance immediately upon return
-            handleEarn('banner1', 0.00205, '#', true); 
-            
-            // Reset flag so it doesn't add again until next click
-            hasClickedAd = false; 
-        }
-    };
 }
 
 function showPage(p){
   document.querySelectorAll("footer button").forEach(b=>b.classList.remove("active"));
-  
-  // Clean up listeners when leaving page
-  window.onblur = null; 
-  window.onfocus = null;
 
   if(p==="home"){
     mainContent.innerHTML=`<div class="big-welcome">Welcome, ${userData.name || 'User'} 👋</div>
@@ -352,16 +337,17 @@ function showPage(p){
   if(p==="earn"){
     mainContent.innerHTML=`
       <div class="big-earn">Earn Balance 💰</div>
-      <p class="big-earn-text">অ্যাডে ক্লিক করে ওপেন হওয়া পেজটি ভিজিট করুন। তারপর <b>Back</b> করে এই পেজে ফিরে আসলেই ব্যালেন্স যুক্ত হবে।</p>
+      <p class="big-earn-text">নিচে থাকা Ad টি লোড হতে দিন। অ্যাড লোড হওয়ার পর "Claim Reward" বাটনে ক্লিক করুন।</p>
       
       <div class="ad-container">
-        <div class="banner-ad-box" id="bannerAdBox">
-            <div class="ad-reward-tag">Earn 0.00205 USDT</div>
+        <div class="banner-ad-box">
+            <div class="ad-reward-tag">Earn 0.0025 USDT</div>
             
-            <!-- Adsterra Container -->
+            <!-- Adsterra 300x250 Placeholder -->
             <div id="ad-slot-300-250"></div>
             
-            <div id="autoAdStatus">Click the ad & come back to earn</div>
+            <!-- Claim Button for Ad -->
+            <button onclick="handleEarn('banner1', 0.0025, '#')" style="background:#2575fc; color:#fff; border:none; padding:12px; border-radius:10px; font-weight:700; cursor:pointer; width:100%; margin-top:15px;">Claim Reward</button>
         </div>
       </div>
 
@@ -377,24 +363,19 @@ function showPage(p){
     `;
     earnBtn.classList.add("active");
 
-    // FAST AD LOADING: Direct Injection
+    // Dynamic Adsterra Loader
     const adContainer = document.getElementById('ad-slot-300-250');
     if(adContainer){
-        // Setup options globally/immediately
-        let scriptOpt = document.createElement('script');
-        scriptOpt.type = 'text/javascript';
-        scriptOpt.innerHTML = `atOptions = { 'key' : '290468ba31574258b12173a3560e2bc8', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };`;
-        adContainer.appendChild(scriptOpt);
+        const s1 = document.createElement('script');
+        s1.type = 'text/javascript';
+        s1.text = `atOptions = { 'key' : '290468ba31574258b12173a3560e2bc8', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };`;
+        adContainer.appendChild(s1);
 
-        // Load the ad script
-        let scriptAd = document.createElement('script');
-        scriptAd.type = 'text/javascript';
-        scriptAd.src = 'https://www.highperformanceformat.com/290468ba31574258b12173a3560e2bc8/invoke.js';
-        adContainer.appendChild(scriptAd);
+        const s2 = document.createElement('script');
+        s2.type = 'text/javascript';
+        s2.src = 'https://www.highperformanceformat.com/290468ba31574258b12173a3560e2bc8/invoke.js';
+        adContainer.appendChild(s2);
     }
-    
-    // Initialize Click Detection
-    setTimeout(initAdMonitor, 500); 
   }
 
   if(p==="wallet"){
