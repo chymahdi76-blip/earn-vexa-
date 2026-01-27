@@ -17,37 +17,57 @@ button{cursor:pointer;font-weight:600;font-size:16px;border:none;border-radius:1
 header{padding:20px;font-size:24px;font-weight:700;text-align:center;border-bottom:1px solid #ddd;}
 main{padding:25px;padding-bottom:200px;font-size:18px}
 
-/* Slider Styles */
+/* Toggle Link Style */
+.toggle-auth{text-align:center; margin-top:15px; font-size:14px; color:#555;}
+.toggle-auth span{color:#2575fc; cursor:pointer; font-weight:600; text-decoration:underline;}
+
+/* Password View */
+.password-wrapper { position: relative; width: 100%; }
+.password-wrapper input { padding-right: 45px; } 
+.toggle-eye {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;
+  color: #666;
+  user-select: none;
+}
+
+/* Slider */
 .slider-container{position:relative;width:100%;max-width:350px;margin:15px auto;border-radius:18px;overflow:hidden;}
 .slider-slide{display:none;width:100%;cursor:pointer;color:#fff;font-weight:700;font-size:20px;padding:50px 20px;text-align:center;border-radius:18px;box-sizing:border-box;}
 .slider-slide .logo{display:block;width:50px;height:50px;margin:0 auto 10px auto;border-radius:50%;background:#fff;color:#2575fc;line-height:50px;font-size:28px;}
 
-/* SUPPORT + PRIVACY BAR */
+/* Support & Footer */
 .support-bar{position:fixed;right:12px;bottom:300px;display:flex;flex-direction:column;gap:16px;z-index:1000;}
 .support-bar a{display:flex;align-items:center;background:#f3f3f3;color:#2575fc;font-weight:700;padding:16px 22px;border-radius:18px;text-decoration:none;font-size:20px;}
 .support-bar a span{margin-right:10px;font-size:28px;}
 
-/* FOOTER */
 footer{position:fixed;bottom:0;width:100%;height:140px;background:#fff;border-top:1px solid #ddd;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;padding-top:5px;}
 footer .nav-buttons{display:flex;justify-content:space-around;width:100%;}
 footer button{background:#f3f3f3;border:none;border-radius:22px;width:90px;height:90px;font-size:16px;font-weight:600;color:#444;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:0.3s;}
 footer button span{font-size:32px;margin-bottom:5px;}
 footer button.active{background:#2575fc;color:#fff;transform:scale(1.35);}
 
-/* Wallet & Page styles */
+/* Wallet & Ads */
 #walletBalance{font-size:50px;font-weight:700;color:#2575fc;text-align:center;margin:20px 0;}
 .withdraw-history{margin-top:20px;border-top:1px solid #ccc;padding-top:10px;font-size:20px;font-weight:600;}
 .withdraw-item, .earn-link-item{margin-bottom:12px;padding:16px;border-radius:18px;background:#2575fc;color:#fff;font-weight:700;font-size:20px;text-align:center;cursor:pointer;transition:0.3s;}
-.withdraw-item:hover, .earn-link-item:hover{background:#6a11cb;}
-.bkash{color:#f44336;font-weight:700;}
-.nagad{color:#4caf50;font-weight:700;}
-.binance{color:#fbbc05;font-weight:700;}
+.withdraw-item:hover{background:#6a11cb;}
 
-/* WALLET INPUT & BUTTON SIZE */
+/* Ad Container Styling */
+.ad-container { margin-bottom: 25px; text-align: center; }
+.banner-ad-box { background: #eef4ff; border: 3px solid #2575fc; border-radius: 18px; padding: 20px 15px; cursor: pointer; transition: 0.3s; position: relative; min-height: 260px; display: flex; flex-direction: column; align-items: center; justify-content: center;}
+.ad-reward-tag { position: absolute; top: 10px; right: 15px; background: #ffd700; color: #000; padding: 5px 12px; font-weight: 700; border-radius: 10px; font-size: 14px; }
+.smart-link-box { background: #f9f9f9; border: 1px solid #6a11cb; border-radius: 12px; padding: 15px; margin: 10px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+
+/* Status Text for Ad */
+#autoAdStatus { font-weight: 700; color: #2575fc; margin-top: 15px; font-size: 16px; min-height: 24px;}
+
 .big-select{font-size:24px;padding:22px;border-radius:18px;}
 .withdraw-big{font-size:24px;padding:20px;border-radius:18px;width:100%;background:#2575fc;color:#fff;border:none;cursor:pointer;}
-
-/* ONLY SIZE ADJUSTMENTS */
 .big-welcome{font-size:32px;font-weight:700;}
 .big-earn{font-size:28px;font-weight:700;}
 .big-earn-text{font-size:22px;font-weight:700;color:#444;margin-top:15px;line-height:1.5;}
@@ -55,7 +75,6 @@ footer button.active{background:#2575fc;color:#fff;transform:scale(1.35);}
 .logout{margin-top:10px;background:#ff4d4d;font-size:14px;padding:8px;width:auto;border-radius:10px;}
 .profile-header {font-size:36px;font-weight:700;text-align:center;margin-bottom:20px;}
 
-/* PRIVACY MODAL */
 .modal-bg{display:none;position:fixed;top:0; left:0; width:100%; height:100%;background:rgba(0,0,0,0.6);justify-content:center; align-items:center;z-index:9999;}
 .modal-content{background:#fff; padding:20px; border-radius:15px;max-width:90%; max-height:80%; overflow-y:auto;}
 .modal-content h2{margin-top:0;text-align:center;}
@@ -63,18 +82,31 @@ footer button.active{background:#2575fc;color:#fff;transform:scale(1.35);}
 </style>
 </head>
 <body>
+
 <div id="authPage" class="container">
   <div id="status"></div>
-  <h2>Register</h2>
-  <input id="regName" placeholder="Full Name">
-  <input id="regEmail" placeholder="Email">
-  <input id="regPassword" type="password" placeholder="Password">
-  <button id="registerBtn" onclick="register()">Register</button>
+  <div id="registerBox">
+    <h2>Register</h2>
+    <input id="regName" placeholder="Full Name">
+    <input id="regEmail" placeholder="Email">
+    <div class="password-wrapper">
+      <input id="regPassword" type="password" placeholder="Password">
+      <span class="toggle-eye" onclick="togglePassword('regPassword', this)">🙈</span>
+    </div>
+    <button id="registerBtn" onclick="register()">Register</button>
+    <div class="toggle-auth">Already have an account? <span onclick="showLogin()">Login</span></div>
+  </div>
 
-  <h2>Login</h2>
-  <input id="loginEmail" placeholder="Email">
-  <input id="loginPassword" type="password" placeholder="Password">
-  <button id="loginBtn" onclick="login()">Login</button>
+  <div id="loginBox" style="display:none;">
+    <h2>Login</h2>
+    <input id="loginEmail" placeholder="Email">
+    <div class="password-wrapper">
+      <input id="loginPassword" type="password" placeholder="Password">
+      <span class="toggle-eye" onclick="togglePassword('loginPassword', this)">🙈</span>
+    </div>
+    <button id="loginBtn" onclick="login()">Login</button>
+    <div class="toggle-auth">Don't have an account? <span onclick="showRegister()">Register</span></div>
+  </div>
 </div>
 
 <div id="appPage">
@@ -99,10 +131,7 @@ footer button.active{background:#2575fc;color:#fff;transform:scale(1.35);}
 <div id="privacyModal" class="modal-bg">
   <div class="modal-content">
     <h2>Privacy Policy</h2>
-    <p>
-      This website collects only your name and email for authentication purposes. Your balance, withdrawals, and account information are securely stored. We do not share, sell, or disclose your personal data to any unauthorized third parties.<br><br>
-      We may use cookies or analytics tools to improve user experience and website performance. By using this website, you agree to our privacy terms.
-    </p>
+    <p>User data is secure. We use analytics to improve experience.</p>
     <button class="modal-close" onclick="closePrivacy()">Close</button>
   </div>
 </div>
@@ -126,12 +155,29 @@ const db = firebase.firestore();
 
 let userData = {};
 let withdrawHistory = [];
-let userDocListener = null; // রিয়েলটাইম আপডেটের জন্য
+let userDocListener = null;
 
 const TELEGRAM_BOT_TOKEN = "8052078728:AAGk2zKjovKSHgKnqPCfaDVb1-fGeURa3Cw";
 const TELEGRAM_CHAT_ID = "-100XXXXXXXXXX";
 
 const statusEl = document.getElementById("status");
+
+function togglePassword(inputId, eyeIcon) {
+  const passwordInput = document.getElementById(inputId);
+  if (passwordInput.type === "password") { passwordInput.type = "text"; eyeIcon.innerText = "👁️"; } 
+  else { passwordInput.type = "password"; eyeIcon.innerText = "🙈"; }
+}
+
+function showLogin() {
+  document.getElementById("registerBox").style.display = "none";
+  document.getElementById("loginBox").style.display = "block";
+  statusEl.textContent = "";
+}
+function showRegister() {
+  document.getElementById("loginBox").style.display = "none";
+  document.getElementById("registerBox").style.display = "block";
+  statusEl.textContent = "";
+}
 
 async function register(){  
   statusEl.textContent = "";
@@ -139,91 +185,59 @@ async function register(){
   const email = regEmail.value.trim();
   const password = regPassword.value;
 
-  if(!name || !email || !password){
-    statusEl.textContent = "❌ All fields are required!";
-    return;
-  }
-  if(!email.endsWith("@gmail.com")){
-    statusEl.textContent = "❌ Only Gmail (@gmail.com) is allowed!";
-    return;
-  }
+  if(!name || !email || !password){ statusEl.textContent = "❌ All fields are required!"; return; }
+  if(!email.endsWith("@gmail.com")){ statusEl.textContent = "❌ Only Gmail (@gmail.com) is allowed!"; return; }
+  if(password.length < 6){ statusEl.textContent = "❌️ Password 6 chars min"; return; }
 
   try{
     const res = await auth.createUserWithEmailAndPassword(email, password);
-    // ব্যালেন্স String "0" হিসেবে সেভ করছি যাতে অ্যাপে এরর না দেয়
     await db.collection("users").doc(res.user.uid).set({
-      name: name,
-      email: email,
-      balance: "0",
-      isBanned: false
+      name: name, email: email, balance: "0", isBanned: false
     });
-    // loadApp এখন auth listener থেকে কল হবে
-  }catch(e){
-    if(e.code === "auth/email-already-in-use") statusEl.textContent = "❌ This email is already registered!";
-    else if(e.code === "auth/weak-password") statusEl.textContent = "❌ Password must be at least 6 characters!";
-    else statusEl.textContent = "❌ Registration failed: " + e.message;
-  }
+  }catch(e){ statusEl.textContent = "❌ Error: " + e.message; }
 }
 
 async function login(){
   statusEl.textContent="";
-  try{
-    await auth.signInWithEmailAndPassword(loginEmail.value,loginPassword.value);
-    // loadApp এখন auth listener থেকে কল হবে
-  } catch(e){
-    if(e.code==="auth/invalid-email") statusEl.textContent="📧 Please enter a valid email address!";
-    else if(e.code==="auth/user-not-found") statusEl.textContent="🚫 This account does not exist!";
-    else if(e.code==="auth/wrong-password"||e.code==="auth/invalid-login-credentials") statusEl.textContent="❌ Incorrect email or password!";
-    else statusEl.textContent="❌ Login failed!";
-  }
+  try{ await auth.signInWithEmailAndPassword(loginEmail.value,loginPassword.value); } 
+  catch(e){ statusEl.textContent="❌ Login failed!"; }
 }
 
-// APP LOAD LOGIC (REAL-TIME UPDATE ADDED)
 async function loadApp(user){
   authPage.style.display="none";
   appPage.style.display="block";
   
-  // 1. User Data Listener (Real-time Balance Update)
-  // এটি অ্যাডমিন প্যানেলে ব্যালেন্স চেঞ্জ করলে সাথে সাথে অ্যাপে দেখাবে
-  if(userDocListener) userDocListener(); // আগের লিসেনার থাকলে বন্ধ করুন
-  
+  if(userDocListener) userDocListener();
   userDocListener = db.collection("users").doc(user.uid).onSnapshot((doc) => {
       if(doc.exists){
           userData = doc.data();
-
-          // Ban Check
-          if(userData.isBanned === true){
-              alert("🚫 Your account has been BANNED!");
-              logout();
-              return;
-          }
-          
+          if(userData.isBanned){ alert("🚫 Account Banned!"); logout(); return; }
           userData.email = user.email;
-          if(!userData.name) userData.name = "User";
-
-          // ব্যালেন্স যদি String হয়, তবুও যাতে UI আপডেট হয়
           if(document.getElementById("walletBalance")){
               document.getElementById("walletBalance").innerText = (userData.balance || 0) + " USDT";
           }
       }
   });
 
-  // 2. Load Withdraw History (Once)
   try {
-      const historySnap = await db.collection("withdraw_requests").where("uid","==",user.uid).orderBy("time","desc").get();
-      withdrawHistory = historySnap.docs.map(d=>d.data());
-  } catch(e) { console.log(e); }
-
+      const historySnap = await db.collection("withdraw_requests")
+        .where("uid","==",user.uid)
+        .get(); 
+      
+      let rawData = historySnap.docs.map(d=>d.data());
+      withdrawHistory = rawData.sort((a,b) => {
+         return (b.time && b.time.seconds ? b.time.seconds : 0) - (a.time && a.time.seconds ? a.time.seconds : 0);
+      });
+  } catch(e) { console.log("History Error:", e); }
+  
   showPage("home");
 }
 
-// Slider Code
 let slideIndex = 0;
 const slidesData = [
   {text:"Join Telegram Channel", sub:"Click to join", link:"https://t.me/Mahar821", color:"#2575fc", logo:"📢"},
   {text:"Telegram Support", sub:"Get help here", link:"https://t.me/earnvexa", color:"#6a11cb", logo:"💬"}
 ];
-
 function showSlide(){
   const sliderContainer = document.querySelector(".slider-container");
   if(!sliderContainer) return;
@@ -239,9 +253,93 @@ function showSlide(){
 }
 setInterval(showSlide, 2500);
 
-// PAGE NAVIGATION
+// --- REWARD HANDLING ---
+async function handleEarn(taskId, rewardAmount, url, autoMode = false) {
+    const today = new Date().toISOString().split('T')[0];
+    const uid = auth.currentUser.uid;
+    const userRef = db.collection("users").doc(uid);
+    const taskRef = db.collection("user_ads").doc(uid);
+
+    try {
+        const doc = await taskRef.get();
+        const data = doc.exists ? doc.data() : {};
+
+        if (data[taskId] === today) {
+            if(!autoMode) alert("❌ Already claimed today!");
+            if(document.getElementById("autoAdStatus")) document.getElementById("autoAdStatus").innerHTML = "❌ Already claimed today.";
+            if(url !== '#') window.open(url, '_blank');
+            return;
+        }
+
+        const userSnap = await userRef.get();
+        let currentBalance = 0;
+        if(userSnap.exists && userSnap.data().balance){
+            currentBalance = parseFloat(userSnap.data().balance);
+        }
+        
+        const newBalance = (currentBalance + rewardAmount).toFixed(7);
+
+        await userRef.set({ balance: newBalance.toString() }, { merge: true });
+
+        let updateObj = {};
+        updateObj[taskId] = today;
+        await taskRef.set(updateObj, { merge: true });
+
+        if(!autoMode) {
+             alert(`✅ Success! You earned ${rewardAmount} USDT.`);
+             if(url !== '#') window.open(url, '_blank');
+        } else {
+             if(document.getElementById("autoAdStatus")) {
+                 document.getElementById("autoAdStatus").innerHTML = `✅ Added ${rewardAmount} USDT!`;
+             }
+        }
+
+    } catch (error) {
+        console.error("Earn Error:", error);
+    }
+}
+
+// --- NEW LOGIC: CLICK & RETURN DETECTION ---
+let isHoveringAd = false;
+let hasClickedAd = false;
+
+function initAdMonitor() {
+    const adBox = document.getElementById("bannerAdBox");
+    const statusBox = document.getElementById("autoAdStatus");
+    
+    if(!adBox) return;
+
+    // Detect if mouse is over the ad
+    adBox.addEventListener('mouseenter', () => { isHoveringAd = true; });
+    adBox.addEventListener('mouseleave', () => { isHoveringAd = false; });
+
+    // Step 1: Detect Click (User leaves the tab/window while hovering ad)
+    window.onblur = function() {
+        if (isHoveringAd) {
+            hasClickedAd = true;
+            statusBox.innerHTML = "👀 Checking... Return to this page!";
+        }
+    };
+
+    // Step 2: Detect Return (User comes back)
+    window.onfocus = function() {
+        if (hasClickedAd) {
+            statusBox.innerHTML = "🔄 Processing reward...";
+            // Add balance immediately upon return
+            handleEarn('banner1', 0.00205, '#', true); 
+            
+            // Reset flag so it doesn't add again until next click
+            hasClickedAd = false; 
+        }
+    };
+}
+
 function showPage(p){
   document.querySelectorAll("footer button").forEach(b=>b.classList.remove("active"));
+  
+  // Clean up listeners when leaving page
+  window.onblur = null; 
+  window.onfocus = null;
 
   if(p==="home"){
     mainContent.innerHTML=`<div class="big-welcome">Welcome, ${userData.name || 'User'} 👋</div>
@@ -253,24 +351,55 @@ function showPage(p){
 
   if(p==="earn"){
     mainContent.innerHTML=`
-      <div class="big-earn">Earn 💰</div>
-      <p class="big-earn-text">
-        Complete tasks / watch ads to earn balance.
-        নিচের লিঙ্কগুলোতে ক্লিক করে 10-15 সেকেন্ড অপেক্ষা করুন এবং অপেক্ষার পর অটো টাকা wallet এ যোগ হবে।✅️
-      </p>
-      <div class="earn-links" style="margin-top:20px;">
-        <div class="earn-link-item" onclick="window.open('https://www.effectivegatecpm.com/q5tr5extmy?key=d3bd60a33be82ecf91d6d22b59cd9765','_blank')">Link 1</div>
-        <div class="earn-link-item" onclick="window.open('https://www.effectivegatecpm.com/kxdppwwruj?key=cc18e71b22c9889bc375099a9f4ce46f','_blank')">Link 2</div>
+      <div class="big-earn">Earn Balance 💰</div>
+      <p class="big-earn-text">অ্যাডে ক্লিক করে ওপেন হওয়া পেজটি ভিজিট করুন। তারপর <b>Back</b> করে এই পেজে ফিরে আসলেই ব্যালেন্স যুক্ত হবে।</p>
+      
+      <div class="ad-container">
+        <div class="banner-ad-box" id="bannerAdBox">
+            <div class="ad-reward-tag">Earn 0.00205 USDT</div>
+            
+            <!-- Adsterra Container -->
+            <div id="ad-slot-300-250"></div>
+            
+            <div id="autoAdStatus">Click the ad & come back to earn</div>
+        </div>
+      </div>
+
+      <div class="smart-link-box" onclick="handleEarn('smart1', 0.0008197, 'https://www.effectivegatecpm.com/q5tr5extmy?key=d3bd60a33be82ecf91d6d22b59cd9765')">
+        <div style="font-weight:700;">Ad link</div>
+        <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
+      </div>
+
+      <div class="smart-link-box" onclick="handleEarn('smart2', 0.0008197, 'https://www.effectivegatecpm.com/kxdppwwruj?key=cc18e71b22c9889bc375099a9f4ce46f')">
+        <div style="font-weight:700;">Ad link</div>
+        <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
       </div>
     `;
     earnBtn.classList.add("active");
+
+    // FAST AD LOADING: Direct Injection
+    const adContainer = document.getElementById('ad-slot-300-250');
+    if(adContainer){
+        // Setup options globally/immediately
+        let scriptOpt = document.createElement('script');
+        scriptOpt.type = 'text/javascript';
+        scriptOpt.innerHTML = `atOptions = { 'key' : '290468ba31574258b12173a3560e2bc8', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };`;
+        adContainer.appendChild(scriptOpt);
+
+        // Load the ad script
+        let scriptAd = document.createElement('script');
+        scriptAd.type = 'text/javascript';
+        scriptAd.src = 'https://www.highperformanceformat.com/290468ba31574258b12173a3560e2bc8/invoke.js';
+        adContainer.appendChild(scriptAd);
+    }
+    
+    // Initialize Click Detection
+    setTimeout(initAdMonitor, 500); 
   }
 
   if(p==="wallet"){
     let historyHtml = withdrawHistory.map(h=>`<div class="withdraw-item ${h.method.toLowerCase()}">${h.method} - ${h.amount} USDT - ${h.status}</div>`).join("");
-    // ব্যালেন্স দেখানোর সময় নিশ্চিত করছি যেন 0 দেখায় যদি ডাটা না থাকে
     let displayBalance = userData.balance ? userData.balance : 0;
-    
     mainContent.innerHTML=`<h2>Your Balance</h2><div id="walletBalance">${displayBalance} USDT</div>
       <h3 style="font-size:22px;font-weight:600;">Withdraw</h3>
       <select id="method" class="big-select">
@@ -294,96 +423,39 @@ function showPage(p){
   }
 }
 
-// WITHDRAW LOGIC (UPDATED: DEDUCTS BALANCE)
 async function withdraw(){
   const methodEl = document.getElementById("method");
   const accountEl = document.getElementById("account");
   const amountEl = document.getElementById("amount");
-
   let reqAmount = parseFloat(amountEl.value);
-  // ব্যালেন্সকে নম্বরে কনভার্ট করছি হিসাবের জন্য
   let currentBalance = parseFloat(userData.balance || 0);
 
-  if(!methodEl.value || !accountEl.value || !reqAmount){
-      alert("❌ All fields required!"); return;
-  }
-  if(reqAmount <= 0){
-      alert("❌ Invalid Amount!"); return;
-  }
-  if(reqAmount > currentBalance){
-      alert("❌ Insufficient Balance! You have " + currentBalance + " USDT");
-      return;
-  }
+  if(!methodEl.value || !accountEl.value || !reqAmount){ alert("❌ All fields required!"); return; }
+  if(reqAmount <= 0){ alert("❌ Invalid Amount!"); return; }
+  if(reqAmount > currentBalance){ alert("❌ Insufficient Balance!"); return; }
 
   if(!confirm(`Withdraw ${reqAmount} USDT to ${methodEl.value}?`)) return;
-
   try{
-    // ১. নতুন ব্যালেন্স হিসাব করা
-    let newBalance = currentBalance - reqAmount;
-
-    // ২. ইউজার ব্যালেন্স আপডেট করা (String হিসেবে সেভ করছি অ্যাডমিন প্যানেলের সাথে মিল রাখার জন্য)
-    await db.collection("users").doc(auth.currentUser.uid).update({
-        balance: newBalance.toString()
-    });
-
-    // ৩. উইথড্র রিকোয়েস্ট তৈরি করা
+    let newBalance = (currentBalance - reqAmount).toFixed(7);
+    await db.collection("users").doc(auth.currentUser.uid).update({ balance: newBalance.toString() });
     await db.collection("withdraw_requests").add({
-      uid: auth.currentUser.uid,
-      method: methodEl.value,
-      account: accountEl.value,
-      amount: reqAmount.toString(),
-      status: "Pending", // প্রথমে Pending থাকবে, অ্যাডমিন Approve করবে
-      time: new Date()
+      uid: auth.currentUser.uid, method: methodEl.value, account: accountEl.value, amount: reqAmount.toString(), status: "Pending", time: new Date()
     });
-
-    // ৪. লোকাল হিস্টোরি আপডেট
-    withdrawHistory.unshift({
-        uid: auth.currentUser.uid,
-        method: methodEl.value,
-        account: accountEl.value,
-        amount: reqAmount.toString(),
-        status: "Pending"
-    });
-
-    // ৫. টেলিগ্রামে মেসেজ পাঠানো
     const message=`💰 New Withdraw Request\nUser: ${userData.name}\nMethod: ${methodEl.value}\nAccount: ${accountEl.value}\nAmount: ${reqAmount} USDT`;
     fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(message)}`);
-
-    alert("✅ Withdraw Request Submitted!");
-    showPage("wallet"); // পেজ রিফ্রেশ হবে এবং নতুন ব্যালেন্স দেখাবে
-
-  } catch(e){
-    console.error(e);
-    alert("❌ Withdraw failed: " + e.message);
-  }
+    alert("✅ Request Submitted!");
+    showPage("wallet");
+  } catch(e){ alert("❌ Failed: " + e.message); }
 }
 
-function logout(){
-  auth.signOut();
-  location.reload();
-}
+function logout(){ auth.signOut(); location.reload(); }
+function openPrivacy(){ document.getElementById("privacyModal").style.display="flex"; }
+function closePrivacy(){ document.getElementById("privacyModal").style.display="none"; }
 
-function openPrivacy(){
-  document.getElementById("privacyModal").style.display="flex";
-}
-
-function closePrivacy(){
-  document.getElementById("privacyModal").style.display="none";
-}
-
-// Auth State Listener
 let appLoaded = false;
 auth.onAuthStateChanged(u=>{
-  if(u){
-    if(!appLoaded){
-       appLoaded = true;
-       loadApp(u);
-    }
-  } else {
-    appLoaded = false;
-    authPage.style.display="block";
-    appPage.style.display="none";
-  }
+  if(u){ if(!appLoaded){ appLoaded = true; loadApp(u); } } 
+  else { appLoaded = false; authPage.style.display="block"; appPage.style.display="none"; }
 });
 </script>
 </body>
