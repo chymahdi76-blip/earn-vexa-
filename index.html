@@ -379,132 +379,102 @@ async function showPage(p){
     showSlide();
   }
 
-  if(p === "earn"){
-    // =============================================
-    // 1. CONFIGURATION & DATABASE
-    // =============================================
-    const today = new Date().toISOString().split('T')[0];
-    const bannerTaskId = 'banner1'; // Banner ID
-    
-    // Check Database
-    const doc = await db.collection("user_ads").doc(auth.currentUser.uid).get();
-    const data = doc.exists ? doc.data() : {};
-
-    // 💰 Direct Links Configuration
-    const directLinks = [
-        { id: 'smart1', name: 'Ad Link 1', reward: 0.0008197, url: 'https://www.effectivegatecpm.com/q5tr5extmy?key=d3bd60a33be82ecf91d6d22b59cd9765' },
-        { id: 'smart2', name: 'Ad Link 2', reward: 0.0008197, url: 'https://www.effectivegatecpm.com/kxdppwwruj?key=cc18e71b22c9889bc375099a9f4ce46f' },
-        { id: 'smart3', name: 'Ad Link 3', reward: 0.0008197, url: 'https://www.effectivegatecpm.com/qjy3qs3cu?key=51b052bab3e5366ca575842e68a8c808' },
-        { id: 'smart4', name: 'Ad Link 4', reward: 0.0008197, url: 'https://www.effectivegatecpm.com/cn5p8241vw?key=57ee98cb7cb7b1ac8a11dbe9802977f9' },
-        { id: 'smart5', name: 'Ad Link 5', reward: 0.0008197, url: 'https://www.effectivegatecpm.com/ar8rd00b?key=263a5d556e491df174d3d1b33ef777e8' }
-    ];
-
-    // =============================================
-    // 2. REWARD CHECKER (Smart Link Logic from Bottom Code)
-    // =============================================
-    
-    const checkAllPendingRewards = async () => {
-        // A. Check Smart Link Rewards
-        const pendingLink = localStorage.getItem('pending_smart_link');
-        if (pendingLink) {
-            const task = JSON.parse(pendingLink);
-            localStorage.removeItem('pending_smart_link'); 
-
-            try {
-                // UI Update
-                const row = document.getElementById(`row-${task.id}`);
-                if(row) row.style.opacity = '0.5';
-
-                // Reward Logic
-                await processReward(task.id, task.reward);
-                
-                setTimeout(() => {
-                    alert(`✅ Success! You earned ${task.reward} USDT.`);
-                    earnBtn.click(); // Refresh Page
-                }, 500);
-            } catch (e) { console.error(e); }
-        }
-    };
-
-    window.onfocus = checkAllPendingRewards;
-    checkAllPendingRewards();
-
-
-    // =============================================
-    // 3. GENERATE HTML
-    // =============================================
-    
-    // --- Generate Links Table (From Bottom Code) ---
-    let linksHtml = '';
-    directLinks.forEach((link) => {
-        const isClaimed = data[link.id] === today;
-        const rowId = `row-${link.id}`;
-        
-        if (isClaimed) {
-            linksHtml += `
-            <div id="${rowId}" class="link-table-row" 
-                 style="background:#e9ecef; border:1px solid #ddd; padding:12px; margin-bottom:10px; border-radius:8px; opacity:0.6; cursor:not-allowed;">
-                <div style="font-weight:bold; color:#666;">${link.name}</div>
-                <div style="font-size:11px; color:#999; margin:5px 0; background:#ddd; padding:4px 8px; border-radius:4px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">${link.url}</div>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:5px;">
-                    <span style="color:#666; font-weight:bold;">+${link.reward} USDT</span>
-                    <span style="font-size:11px; background:#28a745; color:white; padding:3px 8px; border-radius:4px;">✅ Completed</span>
-                </div>
-            </div>`;
-        } else {
-            linksHtml += `
-            <a id="${rowId}" href="${link.url}" target="_blank" class="link-table-row"
-               onclick="registerSmartLinkClick('${link.id}', ${link.reward})"
-               style="text-decoration:none; display:block; background:#fff; border:1px solid #007bff; padding:12px; margin-bottom:10px; border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.1); cursor:pointer;">
-                <div style="font-weight:bold; color:#333; font-size:16px;">${link.name}</div>
-                <div style="font-size:11px; color:#007bff; margin:5px 0; background:#eef6ff; padding:4px 8px; border-radius:4px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">${link.url}</div>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:5px;">
-                    <span style="color:#28a745; font-weight:bold; font-size:14px;">+${link.reward} USDT</span>
-                    <span style="font-size:11px; background:#007bff; color:white; padding:3px 8px; border-radius:4px;">👉 Click to Earn</span>
-                </div>
-            </a>`;
-        }
-    });
-
-    mainContent.innerHTML = `
+  if(p==="earn"){
+    mainContent.innerHTML=`
       <div class="big-earn">Earn Balance 💰</div>
-      <p class="big-earn-text">ব্যানার অ্যাডে ক্লিক করুন এবং নিচের লিংকগুলো ভিজিট করে আয় করুন।</p>
+      <p class="big-earn-text">নিচে থাকা Ad টির উপর ক্লিক করুন। অ্যাড ওপেন হলে অটোমেটিক আপনার ব্যালেন্স অ্যাড হয়ে যাবে।</p>
       
-      <!-- BANNER SECTION (UPDATED: From Top Code) -->
       <div class="ad-container">
+        <!-- Banner Box -->
         <div class="banner-ad-box" id="bannerWrapper">
             <div class="ad-reward-tag">Click Ad to Earn 0.00205 USDT</div>
+            
+            <!-- Adsterra Iframe -->
             <div id="ad-slot-300-250"></div>
+            
+            <!-- OVERLAY BLOCKER (Initially Hidden) -->
             <div id="bannerOverlay" class="click-overlay"></div>
         </div>
       </div>
 
-      <!-- DIRECT LINKS TABLE SECTION -->
-      <div style="margin-top:20px; padding-bottom: 50px;">
-        <h3 style="text-align:center; color:#444; font-size:18px; margin-bottom:15px;">Direct Link Tasks</h3>
-        <div id="linksContainer">
-            ${linksHtml}
-        </div>
+      <!-- Smart Link 1 -->
+      <div class="smart-link-box" onclick="handleEarn('smart1', 0.0008197, 'https://www.effectivegatecpm.com/q5tr5extmy?key=d3bd60a33be82ecf91d6d22b59cd9765')">
+        <div style="font-weight:700;">Ad link 1</div>
+        <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
+      </div>
+
+      <!-- Smart Link 2 -->
+      <div class="smart-link-box" onclick="handleEarn('smart2', 0.0008197, 'https://www.effectivegatecpm.com/kxdppwwruj?key=cc18e71b22c9889bc375099a9f4ce46f')">
+        <div style="font-weight:700;">Ad link 2</div>
+        <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
+      </div>
+
+      <!-- Smart Link 3 -->
+      <div class="smart-link-box" onclick="handleEarn('smart3', 0.0008197, 'https://www.effectivegatecpm.com/qjy3qs3cu?key=51b052bab3e5366ca575842e68a8c808')">
+        <div style="font-weight:700;">Ad link 3</div>
+        <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
+      </div>
+
+      <!-- Smart Link 4 -->
+      <div class="smart-link-box" onclick="handleEarn('smart4', 0.0008197, 'https://www.effectivegatecpm.com/cn5p8241vw?key=57ee98cb7cb7b1ac8a11dbe9802977f9')">
+        <div style="font-weight:700;">Ad link 4</div>
+        <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
+      </div>
+
+      <!-- Smart Link 5 -->
+      <div class="smart-link-box" onclick="handleEarn('smart5', 0.0008197, 'https://www.effectivegatecpm.com/ar8rd00b?key=263a5d556e491df174d3d1b33ef777e8')">
+        <div style="font-weight:700;">Ad link 5</div>
+        <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
+      </div>
+
+      <!-- Smart Link 6 -->
+      <div class="smart-link-box" onclick="handleEarn('smart6', 0.0008197, 'https://www.effectivegatecpm.com/h5k34gs4?key=2c6382d277deeb2dc4b14d58d7208caa')">
+        <div style="font-weight:700;">Ad link 6</div>
+        <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
+      </div>
+
+      <!-- Smart Link 7 -->
+      <div class="smart-link-box" onclick="handleEarn('smart7', 0.0008197, 'https://www.effectivegatecpm.com/pu2a046u?key=65d4bf395068f08f4721e90b40c0eb0d')">
+        <div style="font-weight:700;">Ad link 7</div>
+        <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
+      </div>
+
+      <!-- Smart Link 8 -->
+      <div class="smart-link-box" onclick="handleEarn('smart8', 0.0008197, 'https://www.effectivegatecpm.com/wv4q5gpa5?key=513d875d8b53c8e14716f32640770dcf')">
+        <div style="font-weight:700;">Ad link 8</div>
+        <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
+      </div>
+
+      <!-- NEW: Smart Link 9 -->
+      <div class="smart-link-box" onclick="handleEarn('smart9', 0.0008197, 'https://www.effectivegatecpm.com/aekvgnemc?key=8d627e2df3a16e8b942ff76f54f98467')">
+        <div style="font-weight:700;">Ad link 9</div>
+        <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
+      </div>
+
+      <!-- NEW: Smart Link 10 -->
+      <div class="smart-link-box" onclick="handleEarn('smart10', 0.0008197, 'https://www.effectivegatecpm.com/ezjisqjn10?key=affe0d1d6b387bc3b6cb9e71a50cb04b')">
+        <div style="font-weight:700;">Ad link 10</div>
+        <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
+      </div>
+
+      <!-- NEW: Smart Link 11 -->
+      <div class="smart-link-box" onclick="handleEarn('smart11', 0.0008197, 'https://www.effectivegatecpm.com/hmx00h1i6?key=bd643fed44ee2888b5bf4de574834539')">
+        <div style="font-weight:700;">Ad link 11</div>
+        <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
+      </div>
+
+      <!-- NEW: Smart Link 12 -->
+      <div class="smart-link-box" onclick="handleEarn('smart12', 0.0008197, 'https://www.effectivegatecpm.com/gpfqnia5i?key=a25fb881eb076c4e3b8f66007af718a3')">
+        <div style="font-weight:700;">Ad link 12</div>
+        <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
       </div>
     `;
     earnBtn.classList.add("active");
 
+    // =============================================
+    // Banner Ad Script (Adsterra + Blocker Logic)
+    // =============================================
 
-    // =============================================
-    // 4. HANDLERS: SMART LINKS (From Bottom Code)
-    // =============================================
-    window.registerSmartLinkClick = (taskId, reward) => {
-        localStorage.setItem('pending_smart_link', JSON.stringify({
-            id: taskId, 
-            reward: reward
-        }));
-    };
-
-
-    // =============================================
-    // 5. HANDLERS: BANNER AD (UPDATED: From Top Code)
-    // =============================================
-    
     const adContainer = document.getElementById('ad-slot-300-250');
     if(adContainer){
         adContainer.innerHTML = '';
@@ -512,26 +482,30 @@ async function showPage(p){
         s1.type = 'text/javascript';
         s1.text = `atOptions = { 'key' : '290468ba31574258b12173a3560e2bc8', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };`;
         adContainer.appendChild(s1);
-
         const s2 = document.createElement('script');
         s2.type = 'text/javascript';
         s2.src = 'https://www.highperformanceformat.com/290468ba31574258b12173a3560e2bc8/invoke.js';
         adContainer.appendChild(s2);
     }
     
-    // Banner Blocker Logic (Matched Top Code)
+    // Banner Logic
     const overlay = document.getElementById('bannerOverlay');
     const wrapper = document.getElementById('bannerWrapper');
+    const taskId = 'banner1';
+    const today = new Date().toISOString().split('T')[0];
+    
+    const doc = await db.collection("user_ads").doc(auth.currentUser.uid).get();
+    const data = doc.exists ? doc.data() : {};
     
     const enableBlocker = () => {
-        overlay.style.display = 'block';
+        overlay.style.display = 'block'; 
         overlay.onclick = (e) => {
             e.stopPropagation();
             alert("❌ Already claimed today!");
         };
     };
 
-    if(data[bannerTaskId] === today) {
+    if(data[taskId] === today) {
         enableBlocker();
     } else {
         overlay.style.display = 'none';
@@ -541,15 +515,10 @@ async function showPage(p){
         
         const bannerBlurListener = async function() {
             if(isHovering) {
-                console.log("Banner Ad Clicked");
                 window.removeEventListener('blur', bannerBlurListener);
-                
-                await processReward(bannerTaskId, 0.00205);
-                
+                await processReward(taskId, 0.00205);
                 enableBlocker();
-                setTimeout(() => {
-                    alert(`✅ Success! You earned 0.00205 USDT.`);
-                }, 1000);
+                setTimeout(() => { alert(`✅ Success! You earned 0.00205 USDT.`); }, 1000);
             }
         };
         window.addEventListener('blur', bannerBlurListener);
