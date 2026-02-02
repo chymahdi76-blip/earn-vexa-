@@ -2,121 +2,130 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Earn Vexa💲</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-body{margin:0;font-family:'Poppins',sans-serif;background:#f2f2f2}
-.container{max-width:380px;margin:50px auto;background:#fff;padding:30px;border-radius:18px;box-shadow:0 10px 25px rgba(0,0,0,.15)}
-h2{text-align:center}
-input,select{width:100%;padding:14px;margin:10px 0;border-radius:10px;border:1px solid #ccc;font-size:16px;box-sizing:border-box;}
-button{cursor:pointer;font-weight:600;font-size:16px;border:none;border-radius:10px;color:#fff;}
-#registerBtn{background:#2575fc;width:100%;padding:14px;margin:10px 0;}
-#loginBtn{background:#6a11cb;width:100%;padding:14px;margin:10px 0;}
-#status{text-align:center;font-weight:600;color:red;margin-bottom:10px;}
-#appPage{display:none;min-height:100vh;background:#fff;position:relative;}
-header{padding:20px;font-size:24px;font-weight:700;text-align:center;border-bottom:1px solid #ddd;}
-main{padding:25px;padding-bottom:200px;font-size:18px}
+/* --- BASE STYLES --- */
+body{margin:0;font-family:'Poppins',sans-serif;background:#f8f9fd; color: #333;}
+.container{max-width:380px;margin:50px auto;background:#fff;padding:30px;border-radius:24px;box-shadow:0 15px 35px rgba(0,0,0,.1)}
+h2{text-align:center; color:#333;}
+input,select{width:100%;padding:16px;margin:10px 0;border-radius:12px;border:1px solid #eee;background:#fafafa;font-size:16px;box-sizing:border-box;outline:none;transition:0.3s;}
+input:focus, select:focus{border-color:#2575fc;background:#fff;}
+button{cursor:pointer;font-weight:600;font-size:16px;border:none;border-radius:12px;color:#fff;transition:0.3s;}
+button:active{transform:scale(0.98);}
+#registerBtn{background:linear-gradient(45deg, #2575fc, #6a11cb);width:100%;padding:16px;margin:10px 0;box-shadow:0 5px 15px rgba(37, 117, 252, 0.4);}
+#loginBtn{background:linear-gradient(45deg, #6a11cb, #2575fc);width:100%;padding:16px;margin:10px 0;box-shadow:0 5px 15px rgba(106, 17, 203, 0.4);}
+#status{text-align:center;font-weight:600;color:#ff4757;margin-bottom:10px;}
+#appPage{display:none;min-height:100vh;background:#f8f9fd;position:relative;max-width:480px;margin:0 auto;box-shadow:0 0 20px rgba(0,0,0,0.05);}
+
+header{padding:20px;font-size:22px;font-weight:700;text-align:center;background:#fff;position:sticky;top:0;z-index:90;box-shadow:0 2px 10px rgba(0,0,0,0.05);color:#2575fc;}
+main{padding:20px;padding-bottom:120px;font-size:16px}
 
 /* Toggle Link Style */
-.toggle-auth{text-align:center; margin-top:15px; font-size:14px; color:#555;}
-.toggle-auth span{color:#2575fc; cursor:pointer; font-weight:600; text-decoration:underline;}
+.toggle-auth{text-align:center; margin-top:15px; font-size:14px; color:#888;}
+.toggle-auth span{color:#2575fc; cursor:pointer; font-weight:600;}
 
-/* --- Password View Feature CSS --- */
+/* Password View Feature */
 .password-wrapper { position: relative; width: 100%; }
-.password-wrapper input { padding-right: 45px; } /* Eye icon space */
-.toggle-eye {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  font-size: 20px;
-  color: #666;
-  user-select: none;
+.password-wrapper input { padding-right: 45px; } 
+.toggle-eye { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 18px; color: #aaa; }
+
+/* --- HOME PAGE NEW STYLES --- */
+.home-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+.user-info h3 { margin: 0; font-size: 20px; color: #222; font-weight: 700; }
+.user-info span { font-size: 14px; color: #888; font-weight: 500; }
+.notif-icon { background: #fff; padding: 10px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.05); font-size: 18px; }
+
+/* Balance Card (ATM Style) */
+.balance-card { 
+    background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%); 
+    color: white; 
+    padding: 25px; 
+    border-radius: 22px; 
+    margin-bottom: 30px; 
+    box-shadow: 0 15px 30px rgba(37, 117, 252, 0.3); 
+    position: relative; 
+    overflow: hidden; 
 }
+.balance-card::before {
+    content: ''; position: absolute; top: -50px; right: -50px; width: 150px; height: 150px;
+    background: rgba(255,255,255,0.1); border-radius: 50%; pointer-events: none;
+}
+.balance-card h4 { margin: 0; font-size: 14px; opacity: 0.9; font-weight: 500; }
+.balance-card h1 { margin: 12px 0 25px 0; font-size: 38px; font-weight: 700; letter-spacing: 1px;}
+.balance-actions { display: flex; gap: 12px; }
+.balance-btn { 
+    background: rgba(255,255,255,0.25); 
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 10px 20px; 
+    border-radius: 12px; 
+    color: #fff; 
+    font-size: 14px; 
+    font-weight: 600;
+    cursor: pointer; 
+    backdrop-filter: blur(5px);
+    flex: 1;
+}
+.balance-btn:hover { background: rgba(255,255,255,0.35); }
+
+/* Grid Actions */
+.section-title { font-size: 16px; font-weight: 700; color: #444; margin: 0 0 15px 5px; }
+.action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px; }
+.action-card { 
+    background: #fff; 
+    padding: 20px; 
+    border-radius: 18px; 
+    text-align: center; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.04); 
+    cursor: pointer; 
+    transition: 0.3s; 
+    border: 1px solid #f0f0f0;
+}
+.action-card:active { transform: scale(0.95); }
+.action-icon { font-size: 32px; margin-bottom: 10px; display: block; }
+.action-title { font-weight: 600; font-size: 15px; color: #555; }
 
 /* Slider Styles */
-.slider-container{position:relative;width:100%;max-width:350px;margin:15px auto;border-radius:18px;overflow:hidden;}
-.slider-slide{display:none;width:100%;cursor:pointer;color:#fff;font-weight:700;font-size:20px;padding:50px 20px;text-align:center;border-radius:18px;box-sizing:border-box;}
-.slider-slide .logo{display:block;width:50px;height:50px;margin:0 auto 10px auto;border-radius:50%;background:#fff;color:#2575fc;line-height:50px;font-size:28px;}
-
-/* SUPPORT + PRIVACY BAR */
-.support-bar{position:fixed;right:12px;bottom:300px;display:flex;flex-direction:column;gap:16px;z-index:1000;}
-.support-bar a{display:flex;align-items:center;background:#f3f3f3;color:#2575fc;font-weight:700;padding:16px 22px;border-radius:18px;text-decoration:none;font-size:20px;}
-.support-bar a span{margin-right:10px;font-size:28px;}
+.slider-container{position:relative;width:100%;margin:0 auto;border-radius:18px;overflow:hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.06);}
+.slider-slide{display:none;width:100%;cursor:pointer;color:#fff;font-weight:600;font-size:18px;padding:40px 20px;text-align:center;box-sizing:border-box;}
+.slider-slide .logo{display:inline-block;width:40px;height:40px;margin-bottom:10px;border-radius:50%;background:#fff;color:#2575fc;line-height:40px;font-size:22px;box-shadow:0 4px 10px rgba(0,0,0,0.2);}
 
 /* FOOTER */
-footer{position:fixed;bottom:0;width:100%;height:140px;background:#fff;border-top:1px solid #ddd;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;padding-top:5px;}
-footer .nav-buttons{display:flex;justify-content:space-around;width:100%;}
-footer button{background:#f3f3f3;border:none;border-radius:22px;width:90px;height:90px;font-size:16px;font-weight:600;color:#444;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:0.3s;}
-footer button span{font-size:32px;margin-bottom:5px;}
-footer button.active{background:#2575fc;color:#fff;transform:scale(1.35);}
+footer{position:fixed;bottom:0;width:100%;max-width:480px;height:80px;background:#fff;border-top:1px solid #eee;display:flex;justify-content:space-around;align-items:center;padding-bottom:10px;z-index:100; left: 50%; transform: translateX(-50%); box-shadow: 0 -5px 20px rgba(0,0,0,0.03);}
+footer button{background:transparent;border:none;border-radius:0;width:auto;height:auto;font-size:12px;font-weight:600;color:#999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:0.3s;}
+footer button span{font-size:24px;margin-bottom:5px; transition: 0.3s;}
+footer button.active{color:#2575fc;}
+footer button.active span{transform:translateY(-5px);}
 
 /* Wallet & Page styles */
-#walletBalance{font-size:50px;font-weight:700;color:#2575fc;text-align:center;margin:20px 0;}
-.withdraw-history{margin-top:20px;border-top:1px solid #ccc;padding-top:10px;font-size:20px;font-weight:600;}
-.withdraw-item, .earn-link-item{margin-bottom:12px;padding:16px;border-radius:18px;background:#2575fc;color:#fff;font-weight:700;font-size:20px;text-align:center;cursor:pointer;transition:0.3s;}
-.withdraw-item:hover, .earn-link-item:hover{background:#6a11cb;}
-.bkash{color:#f44336;font-weight:700;}
-.nagad{color:#4caf50;font-weight:700;}
-.binance{color:#fbbc05;font-weight:700;}
-
-/* EARN PAGE AD STYLES */
+#walletBalance{font-size:42px;font-weight:700;color:#2575fc;text-align:center;margin:30px 0 10px 0;}
+.withdraw-history{margin-top:25px;border-top:1px solid #eee;padding-top:20px;}
+.withdraw-item{margin-bottom:15px;padding:20px;border-radius:18px;background:#fff;color:#333;box-shadow:0 5px 15px rgba(0,0,0,0.05); font-weight:500; font-size:16px; border-left: 5px solid #2575fc;}
 .ad-container { margin-bottom: 25px; text-align: center; }
 .banner-ad-box { 
     background: #eef4ff; 
-    border: 3px solid #2575fc; 
+    border: 2px dashed #2575fc; 
     border-radius: 18px; 
-    padding: 20px 15px; 
-    transition: 0.3s; 
-    position: relative; 
+    padding: 20px; 
     min-height: 250px; 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: center;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;
 }
-.banner-ad-box:hover { border-color: #6a11cb; box-shadow: 0 0 15px rgba(37, 117, 252, 0.3); }
-.ad-reward-tag { position: absolute; top: 10px; right: 15px; background: #ffd700; color: #000; padding: 5px 12px; font-weight: 700; border-radius: 10px; font-size: 14px; z-index: 5; }
-.smart-link-box { background: #f9f9f9; border: 1px solid #6a11cb; border-radius: 12px; padding: 15px; margin: 10px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-.ad-title { font-size: 24px; font-weight: 700; color: #333; }
-.ad-subtitle { font-size: 14px; margin-top: 10px; color: #666; font-weight: 400; }
+.ad-reward-tag { position: absolute; top: -12px; right: 20px; background: #ffd700; color: #000; padding: 6px 15px; font-weight: 700; border-radius: 20px; font-size: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.smart-link-box { background: #fff; border-radius: 16px; padding: 18px; margin: 12px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid #f0f0f0;}
 
-/* 
-   BLOCKER OVERLAY:
-   When this is display:block, it sits ON TOP of the iframe.
-   Clicks hit this div, NOT the iframe, so NO tab opens.
-*/
-.click-overlay {
-    display: none; 
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 100; /* High z-index to block everything */
-    background: rgba(255, 255, 255, 0.4); /* Slightly visible so user knows its inactive */
-    cursor: not-allowed;
-    border-radius: 15px;
-}
+/* Privacy Modal */
+.modal-bg{display:none;position:fixed;top:0; left:0; width:100%; height:100%;background:rgba(0,0,0,0.6);justify-content:center; align-items:center;z-index:9999;backdrop-filter: blur(5px);}
+.modal-content{background:#fff; padding:30px; border-radius:24px;max-width:85%; max-height:80%; overflow-y:auto; box-shadow: 0 20px 50px rgba(0,0,0,0.2);}
 
-/* WALLET INPUT & BUTTON SIZE */
-.big-select{font-size:24px;padding:22px;border-radius:18px;}
-.withdraw-big{font-size:24px;padding:20px;border-radius:18px;width:100%;background:#2575fc;color:#fff;border:none;cursor:pointer;}
+/* Overlay Blocker */
+.click-overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100; background: rgba(255, 255, 255, 0.5); cursor: not-allowed; border-radius: 18px;}
 
-/* ONLY SIZE ADJUSTMENTS */
-.big-welcome{font-size:32px;font-weight:700;}
-.big-earn{font-size:28px;font-weight:700;}
-.big-earn-text{font-size:22px;font-weight:700;color:#444;margin-top:15px;line-height:1.5;}
-.big-profile-text{font-size:32px;margin:14px 0;font-weight:700;}
-.logout{margin-top:10px;background:#ff4d4d;font-size:14px;padding:8px;width:auto;border-radius:10px;}
-.profile-header {font-size:36px;font-weight:700;text-align:center;margin-bottom:20px;}
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
 
-/* PRIVACY MODAL */
-.modal-bg{display:none;position:fixed;top:0; left:0; width:100%; height:100%;background:rgba(0,0,0,0.6);justify-content:center; align-items:center;z-index:9999;}
-.modal-content{background:#fff; padding:20px; border-radius:15px;max-width:90%; max-height:80%; overflow-y:auto;}
-.modal-content h2{margin-top:0;text-align:center;}
-.modal-close{display:block; text-align:center; margin-top:15px;padding:8px 16px; background:#2575fc; color:#fff;border:none; border-radius:10px; cursor:pointer;}
 </style>
 </head>
 <body>
@@ -126,26 +135,26 @@ footer button.active{background:#2575fc;color:#fff;transform:scale(1.35);}
 
   <!-- Register Form -->
   <div id="registerBox">
-    <h2>Register</h2>
+    <h2 style="font-size: 28px; margin-bottom: 5px;">Create Account</h2>
+    <p style="text-align: center; color: #777; margin-bottom: 25px;">Start earning today!</p>
     <input id="regName" placeholder="Full Name">
-    <input id="regEmail" placeholder="Email">
+    <input id="regEmail" placeholder="Email Address">
     
-    <!-- Password with Eye Icon -->
     <div class="password-wrapper">
       <input id="regPassword" type="password" placeholder="Password">
       <span class="toggle-eye" onclick="togglePassword('regPassword', this)">🙈</span>
     </div>
     
-    <button id="registerBtn" onclick="register()">Register</button>
+    <button id="registerBtn" onclick="register()">Register Now</button>
     <div class="toggle-auth">Already have an account? <span onclick="showLogin()">Login</span></div>
   </div>
 
   <!-- Login Form -->
   <div id="loginBox" style="display:none;">
-    <h2>Login</h2>
-    <input id="loginEmail" placeholder="Email">
+    <h2 style="font-size: 28px; margin-bottom: 5px;">Welcome Back</h2>
+    <p style="text-align: center; color: #777; margin-bottom: 25px;">Login to your dashboard</p>
+    <input id="loginEmail" placeholder="Email Address">
     
-    <!-- Password with Eye Icon -->
     <div class="password-wrapper">
       <input id="loginPassword" type="password" placeholder="Password">
       <span class="toggle-eye" onclick="togglePassword('loginPassword', this)">🙈</span>
@@ -157,33 +166,26 @@ footer button.active{background:#2575fc;color:#fff;transform:scale(1.35);}
 </div>
 
 <div id="appPage">
-<header>Earn Vexa 💲</header>
+<header id="mainHeader">Earn Vexa 💲</header>
 <main id="mainContent"></main>
 
-<div class="support-bar">
-  <a href="https://t.me/Mahar821" target="_blank"><span>💬</span>Support</a>
-  <a href="#" onclick="openPrivacy()"><span>🛡️</span>Privacy Policy</a>
-</div>
-
 <footer>
-  <div class="nav-buttons">
-    <button id="homeBtn" class="active" onclick="showPage('home')"><span>🏠</span>Home</button>
-    <button id="earnBtn" onclick="showPage('earn')"><span>💰</span>Earn</button>
-    <button id="walletBtn" onclick="showPage('wallet')"><span>👛</span>Wallet</button>
-    <button id="profileBtn" onclick="showPage('profile')"><span>👤</span>Profile</button>
-  </div>
+  <button id="homeBtn" class="active" onclick="showPage('home')"><span>🏠</span>Home</button>
+  <button id="earnBtn" onclick="showPage('earn')"><span>🚀</span>Earn</button>
+  <button id="walletBtn" onclick="showPage('wallet')"><span>👛</span>Wallet</button>
+  <button id="profileBtn" onclick="showPage('profile')"><span>👤</span>Profile</button>
 </footer>
 </div>
 
 <!-- Privacy Modal -->
 <div id="privacyModal" class="modal-bg">
   <div class="modal-content">
-    <h2>Privacy Policy</h2>
-    <p>
+    <h2 style="margin-top:0">Privacy Policy</h2>
+    <p style="line-height: 1.6; color: #555;">
       This website collects only your name and email for authentication purposes. Your balance, withdrawals, and account information are securely stored. We do not share, sell, or disclose your personal data to any unauthorized third parties.<br><br>
-      We may use cookies or analytics tools to improve user experience and website performance. By using this website, you agree to our privacy terms.
+      We may use cookies or analytics tools to improve user experience. By using this website, you agree to our privacy terms.
     </p>
-    <button class="modal-close" onclick="closePrivacy()">Close</button>
+    <button onclick="closePrivacy()" style="background:#2575fc; padding:12px; width:100%; border-radius:12px; margin-top:15px;">Close</button>
   </div>
 </div>
 
@@ -214,7 +216,6 @@ const TELEGRAM_CHAT_ID = "-100XXXXXXXXXX";
 
 const statusEl = document.getElementById("status");
 
-// Function to Toggle Password Visibility
 function togglePassword(inputId, eyeIcon) {
   const passwordInput = document.getElementById(inputId);
   if (passwordInput.type === "password") {
@@ -226,7 +227,6 @@ function togglePassword(inputId, eyeIcon) {
   }
 }
 
-// Toggle Auth Pages
 function showLogin() {
   document.getElementById("registerBox").style.display = "none";
   document.getElementById("loginBox").style.display = "block";
@@ -253,13 +253,12 @@ async function register(){
     return; 
   }
   if(password.length < 6){
-    statusEl.textContent = "❌️Password should be at least 6 characters";
+    statusEl.textContent = "❌ Password should be at least 6 characters";
     return;
   }
 
   try{
     const res = await auth.createUserWithEmailAndPassword(email, password);
-    // Password saved here so Admin Panel can see it
     await db.collection("users").doc(res.user.uid).set({
       name: name, email: email, password: password, balance: "0", isBanned: false
     });
@@ -275,7 +274,7 @@ async function register(){
 async function login(){
   statusEl.textContent="";
   try{ await auth.signInWithEmailAndPassword(loginEmail.value,loginPassword.value); } 
-  catch(e){ statusEl.textContent="❌ Login failed! Incorrect email or password."; }
+  catch(e){ statusEl.textContent="❌ Login failed! Check credentials."; }
 }
 
 async function loadApp(user){
@@ -287,9 +286,11 @@ async function loadApp(user){
           userData = doc.data();
           if(userData.isBanned === true){ alert("🚫 Account Banned!"); logout(); return; }
           userData.email = user.email;
-          if(document.getElementById("walletBalance")){
-              document.getElementById("walletBalance").innerText = (userData.balance || 0) + " USDT";
-          }
+          const wb = document.getElementById("walletBalance");
+          if(wb) wb.innerText = (userData.balance || 0) + " USDT";
+          
+          const hb = document.getElementById("homeBalanceDisplay");
+          if(hb) hb.innerText = parseFloat(userData.balance || 0).toFixed(4);
       }
   });
   try {
@@ -301,8 +302,8 @@ async function loadApp(user){
 
 let slideIndex = 0;
 const slidesData = [
-  {text:"Join Telegram Channel", sub:"Click to join", link:"https://t.me/Mahar821", color:"#2575fc", logo:"📢"},
-  {text:"Telegram Support", sub:"Get help here", link:"https://t.me/earnvexa", color:"#6a11cb", logo:"💬"}
+  {text:"Join Telegram Channel", sub:"For Payment Proofs", link:"https://t.me/Mahar821", color:"linear-gradient(135deg, #2575fc, #6a11cb)", logo:"📢"},
+  {text:"Need Help?", sub:"Contact Support", link:"https://t.me/earnvexa", color:"linear-gradient(135deg, #43e97b, #38f9d7)", logo:"💬"}
 ];
 function showSlide(){
   const sliderContainer = document.querySelector(".slider-container");
@@ -311,15 +312,14 @@ function showSlide(){
   const slide = document.createElement('div');
   slide.className = "slider-slide";
   slide.style.background = slidesData[slideIndex].color;
-  slide.innerHTML = `<span class="logo">${slidesData[slideIndex].logo}</span>${slidesData[slideIndex].text}<br><small>${slidesData[slideIndex].sub}</small>`;
+  slide.innerHTML = `<span class="logo">${slidesData[slideIndex].logo}</span><br>${slidesData[slideIndex].text}<br><small style="font-weight:400; font-size:14px; opacity:0.9">${slidesData[slideIndex].sub}</small>`;
   slide.onclick = ()=>{ window.open(slidesData[slideIndex].link,'_blank'); };
   sliderContainer.appendChild(slide);
   slide.style.display = "block";
   slideIndex = (slideIndex+1)%slidesData.length;
 }
-setInterval(showSlide, 2500);
+setInterval(showSlide, 3500);
 
-// --- REWARD PROCESSING (NO ALERT HERE) ---
 async function processReward(taskId, rewardAmount) {
     const today = new Date().toISOString().split('T')[0];
     const uid = auth.currentUser.uid;
@@ -328,37 +328,24 @@ async function processReward(taskId, rewardAmount) {
     try {
         const currentBalance = parseFloat(userData.balance || 0);
         const newBalance = (currentBalance + rewardAmount).toFixed(7);
-        
         await db.collection("users").doc(uid).update({ balance: newBalance.toString() });
-        
         let updateObj = {};
         updateObj[taskId] = today;
         await taskRef.set(updateObj, { merge: true });
-        
-        // Removed alert from here to handle it differently for Banner vs Smart Link
         return true; 
-    } catch(e) {
-        console.error(e);
-        return false;
-    }
+    } catch(e) { console.error(e); return false; }
 }
 
-// --- SMART LINK HANDLER (Alert is fine here) ---
 async function handleEarn(taskId, rewardAmount, url) {
     const today = new Date().toISOString().split('T')[0];
     const uid = auth.currentUser.uid;
-    
-    // Check DB first
     const doc = await db.collection("user_ads").doc(uid).get();
     const data = doc.exists ? doc.data() : {};
     
     if (data[taskId] === today) {
-        alert("❌ Already claimed today! Come back tomorrow.");
-        // DO NOT open tab
+        alert("❌ Already claimed today!");
         return;
     }
-    
-    // Add Balance & Open Link
     const success = await processReward(taskId, rewardAmount);
     if(success) {
         window.open(url, '_blank');
@@ -368,102 +355,123 @@ async function handleEarn(taskId, rewardAmount, url) {
 
 async function showPage(p){
   document.querySelectorAll("footer button").forEach(b=>b.classList.remove("active"));
+  document.getElementById("mainHeader").style.display = (p === "home") ? "none" : "block"; // Hide standard header on home
   
   if(bannerBlurListener) { window.removeEventListener('blur', bannerBlurListener); bannerBlurListener = null; }
 
+  // --- HOME PAGE DASHBOARD ---
   if(p==="home"){
-    mainContent.innerHTML=`<div class="big-welcome">Welcome, ${userData.name || 'User'} 👋</div>
-      <div class="slider-container"></div>`;
+    let currentBal = userData.balance ? parseFloat(userData.balance).toFixed(4) : "0.0000";
+    
+    mainContent.innerHTML=`
+      <!-- Header -->
+      <div class="home-header">
+        <div class="user-info">
+           <h3>Hi, ${userData.name || 'User'} 👋</h3>
+           <span>Ready to earn today?</span>
+        </div>
+        <div class="notif-icon" onclick="window.open('https://t.me/Mahar821','_blank')">🔔</div>
+      </div>
+
+      <!-- Balance Card -->
+      <div class="balance-card">
+         <h4>Total Balance</h4>
+         <h1><span id="homeBalanceDisplay">${currentBal}</span> <span style="font-size:18px">USDT</span></h1>
+         <div class="balance-actions">
+           <button class="balance-btn" onclick="showPage('earn')">Start Earn</button>
+           <button class="balance-btn" onclick="showPage('wallet')">Withdraw</button>
+         </div>
+      </div>
+
+      <!-- Quick Actions Grid -->
+      <div class="section-title">Quick Actions</div>
+      <div class="action-grid">
+         <div class="action-card" onclick="showPage('earn')">
+           <span class="action-icon" style="color:#2575fc">🚀</span>
+           <div class="action-title">Tasks</div>
+         </div>
+         <div class="action-card" onclick="showPage('wallet')">
+           <span class="action-icon" style="color:#6a11cb">👛</span>
+           <div class="action-title">Wallet</div>
+         </div>
+         <div class="action-card" onclick="window.open('https://t.me/Mahar821','_blank')">
+           <span class="action-icon" style="color:#0088cc">📢</span>
+           <div class="action-title">Telegram</div>
+         </div>
+         <div class="action-card" onclick="openPrivacy()">
+           <span class="action-icon" style="color:#ff9f43">🛡️</span>
+           <div class="action-title">Policy</div>
+         </div>
+      </div>
+
+      <!-- Slider (News) -->
+      <div class="section-title">Announcements</div>
+      <div class="slider-container"></div>
+      
+      <div style="height:20px;"></div>
+    `;
     homeBtn.classList.add("active");
     slideIndex=0;
     showSlide();
   }
 
+  // --- EARN PAGE MODIFIED ---
   if(p==="earn"){
     mainContent.innerHTML=`
-      <div class="big-earn">Earn Balance 💰</div>
-      <p class="big-earn-text">নিচে থাকা Ad টির উপর ক্লিক করুন। অ্যাড ওপেন হলে অটোমেটিক আপনার ব্যালেন্স অ্যাড হয়ে যাবে।</p>
-      
-      <div class="ad-container">
+      <div class="ad-container" style="margin-top:10px;">
         <!-- Banner Box -->
         <div class="banner-ad-box" id="bannerWrapper">
-            <div class="ad-reward-tag">Click Ad to Earn 0.00205 USDT</div>
-            
-            <!-- Adsterra Iframe -->
+            <div class="ad-reward-tag">Earn 0.00205 USDT</div>
             <div id="ad-slot-300-250"></div>
-            
-            <!-- OVERLAY BLOCKER (Initially Hidden) -->
             <div id="bannerOverlay" class="click-overlay"></div>
         </div>
       </div>
 
-      <!-- Smart Link 1 -->
+      <!-- Smart Links List -->
       <div class="smart-link-box" onclick="handleEarn('smart1', 0.0008197, 'https://www.effectivegatecpm.com/q5tr5extmy?key=d3bd60a33be82ecf91d6d22b59cd9765')">
         <div style="font-weight:700;">Ad link 1</div>
         <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
       </div>
-
-      <!-- Smart Link 2 -->
       <div class="smart-link-box" onclick="handleEarn('smart2', 0.0008197, 'https://www.effectivegatecpm.com/kxdppwwruj?key=cc18e71b22c9889bc375099a9f4ce46f')">
         <div style="font-weight:700;">Ad link 2</div>
         <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
       </div>
-
-      <!-- Smart Link 3 -->
       <div class="smart-link-box" onclick="handleEarn('smart3', 0.0008197, 'https://www.effectivegatecpm.com/qjy3qs3cu?key=51b052bab3e5366ca575842e68a8c808')">
         <div style="font-weight:700;">Ad link 3</div>
         <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
       </div>
-
-      <!-- Smart Link 4 -->
       <div class="smart-link-box" onclick="handleEarn('smart4', 0.0008197, 'https://www.effectivegatecpm.com/cn5p8241vw?key=57ee98cb7cb7b1ac8a11dbe9802977f9')">
         <div style="font-weight:700;">Ad link 4</div>
         <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
       </div>
-
-      <!-- Smart Link 5 -->
       <div class="smart-link-box" onclick="handleEarn('smart5', 0.0008197, 'https://www.effectivegatecpm.com/ar8rd00b?key=263a5d556e491df174d3d1b33ef777e8')">
         <div style="font-weight:700;">Ad link 5</div>
         <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
       </div>
-
-      <!-- Smart Link 6 -->
       <div class="smart-link-box" onclick="handleEarn('smart6', 0.0008197, 'https://www.effectivegatecpm.com/h5k34gs4?key=2c6382d277deeb2dc4b14d58d7208caa')">
         <div style="font-weight:700;">Ad link 6</div>
         <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
       </div>
-
-      <!-- Smart Link 7 -->
       <div class="smart-link-box" onclick="handleEarn('smart7', 0.0008197, 'https://www.effectivegatecpm.com/pu2a046u?key=65d4bf395068f08f4721e90b40c0eb0d')">
         <div style="font-weight:700;">Ad link 7</div>
         <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
       </div>
-
-      <!-- Smart Link 8 -->
       <div class="smart-link-box" onclick="handleEarn('smart8', 0.0008197, 'https://www.effectivegatecpm.com/wv4q5gpa5?key=513d875d8b53c8e14716f32640770dcf')">
         <div style="font-weight:700;">Ad link 8</div>
         <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
       </div>
-
-      <!-- NEW: Smart Link 9 -->
       <div class="smart-link-box" onclick="handleEarn('smart9', 0.0008197, 'https://www.effectivegatecpm.com/aekvgnemc?key=8d627e2df3a16e8b942ff76f54f98467')">
         <div style="font-weight:700;">Ad link 9</div>
         <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
       </div>
-
-      <!-- NEW: Smart Link 10 -->
       <div class="smart-link-box" onclick="handleEarn('smart10', 0.0008197, 'https://www.effectivegatecpm.com/ezjisqjn10?key=affe0d1d6b387bc3b6cb9e71a50cb04b')">
         <div style="font-weight:700;">Ad link 10</div>
         <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
       </div>
-
-      <!-- NEW: Smart Link 11 -->
-      <div class="smart-link-box" onclick="handleEarn('smart11', 0.0008197, 'https://www.effectivegatecpm.com/hmx00h1i6?key=bd643fed44ee2888b5bf4de574834539')">
+       <div class="smart-link-box" onclick="handleEarn('smart11', 0.0008197, 'https://www.effectivegatecpm.com/hmx00h1i6?key=bd643fed44ee2888b5bf4de574834539')">
         <div style="font-weight:700;">Ad link 11</div>
         <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
       </div>
-
-      <!-- NEW: Smart Link 12 -->
       <div class="smart-link-box" onclick="handleEarn('smart12', 0.0008197, 'https://www.effectivegatecpm.com/gpfqnia5i?key=a25fb881eb076c4e3b8f66007af718a3')">
         <div style="font-weight:700;">Ad link 12</div>
         <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
@@ -471,10 +479,7 @@ async function showPage(p){
     `;
     earnBtn.classList.add("active");
 
-    // =============================================
-    // Banner Ad Script (Adsterra + Blocker Logic)
-    // =============================================
-
+    // Ad Scripts
     const adContainer = document.getElementById('ad-slot-300-250');
     if(adContainer){
         adContainer.innerHTML = '';
@@ -488,7 +493,6 @@ async function showPage(p){
         adContainer.appendChild(s2);
     }
     
-    // Banner Logic
     const overlay = document.getElementById('bannerOverlay');
     const wrapper = document.getElementById('bannerWrapper');
     const taskId = 'banner1';
@@ -499,15 +503,10 @@ async function showPage(p){
     
     const enableBlocker = () => {
         overlay.style.display = 'block'; 
-        overlay.onclick = (e) => {
-            e.stopPropagation();
-            alert("❌ Already claimed today!");
-        };
+        overlay.onclick = (e) => { e.stopPropagation(); alert("❌ Already claimed today!"); };
     };
 
-    if(data[taskId] === today) {
-        enableBlocker();
-    } else {
+    if(data[taskId] === today) { enableBlocker(); } else {
         overlay.style.display = 'none';
         let isHovering = false;
         wrapper.onmouseover = () => isHovering = true;
@@ -523,44 +522,65 @@ async function showPage(p){
         };
         window.addEventListener('blur', bannerBlurListener);
     }
-}
+  }
 
   if(p==="wallet"){
     let historyHtml = withdrawHistory.map(h => {
-        const dateObj = h.time && h.time.toDate ? h.time.toDate() : new Date();
-        const dateStr = dateObj.toLocaleString(); 
-        
-        return `<div class="withdraw-item ${h.method.toLowerCase()}" style="padding: 20px 25px; text-align: left; cursor: default;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
-                <span style="font-size: 20px; font-weight: 700; color: #fff;">${h.method}</span>
-                <span style="font-size: 18px; font-weight: 700;">Status: ${h.status}</span>
+        return `<div class="withdraw-item">
+            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                <span style="font-weight:700; color:#2575fc">${h.method}</span>
+                <span style="font-size:14px; background:#eee; padding:2px 8px; border-radius:6px; color:#555;">${h.status}</span>
             </div>
-            <div style="font-size: 28px; font-weight: 700; margin-bottom: 5px;">${h.amount} USDT</div>
-            <div style="font-size: 14px; font-weight: 400; opacity: 0.9;">Account: ${h.account}</div>
-            <div style="font-size: 12px; font-weight: 400; opacity: 0.7; margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 5px;">Request Time: ${dateStr}</div>
+            <div style="font-size:24px; font-weight:700;">${h.amount} USDT</div>
+            <div style="font-size:13px; color:#777; margin-top:5px;">To: ${h.account}</div>
         </div>`;
     }).join("");
     
-    let displayBalance = userData.balance ? userData.balance : 0;
-    mainContent.innerHTML=`<h2>Your Balance</h2><div id="walletBalance">${displayBalance} USDT</div>
-      <h3 style="font-size:22px;font-weight:600;">Withdraw</h3>
-      <select id="method" class="big-select">
-        <option value="bKash">💸 Bkash</option>
-        <option value="Nagad">💶 Nagad</option>
-        <option value="Binance">💲 Binance</option>
-      </select>
-      <input id="account" placeholder="Account / Wallet Address" class="big-select">
-      <input id="amount" placeholder="Amount (Min 0.50)" type="number" class="big-select">
-      <button class="withdraw-big" onclick="withdraw()">Request Withdraw</button>
-      <div class="withdraw-history"><h4 style="font-size:22px;font-weight:600;">Withdraw History</h4>${historyHtml||"<i style='font-size:20px;font-weight:600;'>No history</i>"}</div>`;
+    mainContent.innerHTML=`
+      <div style="text-align:center;">
+          <h2 style="margin:0; font-size:20px; color:#555;">Current Balance</h2>
+          <div id="walletBalance">${userData.balance || 0} USDT</div>
+      </div>
+
+      <div style="background:#fff; padding:20px; border-radius:20px; box-shadow:0 5px 20px rgba(0,0,0,0.05);">
+        <h3 style="margin-top:0; color:#444;">Withdraw Money</h3>
+        <select id="method">
+            <option value="bKash">💸 Bkash</option>
+            <option value="Nagad">💶 Nagad</option>
+            <option value="Binance">💲 Binance</option>
+        </select>
+        <input id="account" placeholder="Wallet Address / Number">
+        <input id="amount" placeholder="Amount (Min 0.50)" type="number">
+        <button onclick="withdraw()" style="width:100%; padding:18px; background:#2575fc; font-size:18px; border-radius:12px; margin-top:10px;">Request Withdraw</button>
+      </div>
+
+      <div class="withdraw-history">
+          <h4 style="margin:0 0 15px 0; color:#555;">Recent Transactions</h4>
+          ${historyHtml||"<div style='text-align:center;color:#999;padding:20px;'>No transactions yet</div>"}
+      </div>`;
     walletBtn.classList.add("active");
   }
 
   if(p==="profile"){
-    mainContent.innerHTML=`<h2 class="profile-header">Profile</h2>
-      <p class="big-profile-text"><b>Name:</b> ${userData.name}</p>
-      <p class="big-profile-text"><b>Email:</b> ${userData.email}</p>
-      <button class="logout" onclick="logout()">Logout</button>`;
+    mainContent.innerHTML=`
+      <div style="text-align:center; padding:30px 0;">
+         <div style="width:80px; height:80px; background:#eef4ff; color:#2575fc; font-size:40px; line-height:80px; border-radius:50%; margin:0 auto 15px auto;">👤</div>
+         <h2 style="margin:0;">${userData.name}</h2>
+         <p style="color:#777; margin:5px 0;">${userData.email}</p>
+      </div>
+
+      <div style="background:#fff; border-radius:18px; overflow:hidden; box-shadow:0 5px 15px rgba(0,0,0,0.05);">
+          <div style="padding:18px; border-bottom:1px solid #f0f0f0; display:flex; align-items:center;">
+             <span style="font-size:20px; margin-right:15px;">🔒</span> Change Password
+          </div>
+          <div style="padding:18px; border-bottom:1px solid #f0f0f0; display:flex; align-items:center; cursor:pointer;" onclick="window.open('https://t.me/Mahar821','_blank')">
+             <span style="font-size:20px; margin-right:15px;">💬</span> Support
+          </div>
+          <div style="padding:18px; cursor:pointer; color:red; display:flex; align-items:center;" onclick="logout()">
+             <span style="font-size:20px; margin-right:15px;">🚪</span> Logout
+          </div>
+      </div>
+    `;
     profileBtn.classList.add("active");
   }
 }
@@ -593,10 +613,7 @@ async function withdraw(){
     const historySnap = await db.collection("withdraw_requests").where("uid","==",auth.currentUser.uid).get();
     withdrawHistory = historySnap.docs.map(d=>d.data());
     showPage("wallet");
-  } catch(e){ 
-    alert("❌ Failed: " + e.message); 
-    console.error(e);
-  }
+  } catch(e){ alert("❌ Failed: " + e.message); console.error(e); }
 }
 
 function logout(){ auth.signOut(); location.reload(); }
