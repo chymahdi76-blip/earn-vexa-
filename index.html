@@ -103,6 +103,8 @@ footer button.active span{transform:translateY(-5px);}
 .withdraw-history{margin-top:25px;border-top:1px solid #eee;padding-top:20px;}
 .withdraw-item{margin-bottom:15px;padding:20px;border-radius:18px;background:#fff;color:#333;box-shadow:0 5px 15px rgba(0,0,0,0.05); font-weight:500; font-size:16px; border-left: 5px solid #2575fc;}
 .ad-container { margin-bottom: 25px; text-align: center; }
+
+/* Banner Ads Styling */
 .banner-ad-box { 
     background: #eef4ff; 
     border: 2px dashed #2575fc; 
@@ -110,7 +112,20 @@ footer button.active span{transform:translateY(-5px);}
     padding: 20px; 
     min-height: 250px; 
     display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;
+    box-sizing: border-box;
 }
+/* Fixed Heights for Iframe Containers */
+#ad-slot-300-250 { width: 300px; height: 250px; margin: 0 auto; display: block; background: #fff; }
+#ad-slot-320-50 { width: 320px; height: 50px; margin: 0 auto; display: block; background: #fff; }
+
+.banner-small {
+    min-height: 80px !important;
+    padding: 15px !important;
+    margin-top: 15px;
+    border-color: #6a11cb;
+    background: #f3e5f5;
+}
+
 .ad-reward-tag { position: absolute; top: -12px; right: 20px; background: #ffd700; color: #000; padding: 6px 15px; font-weight: 700; border-radius: 20px; font-size: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 .smart-link-box { background: #fff; border-radius: 16px; padding: 18px; margin: 12px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid #f0f0f0;}
 
@@ -274,7 +289,7 @@ async function register(){
 async function login(){
   statusEl.textContent="";
   try{ await auth.signInWithEmailAndPassword(loginEmail.value,loginPassword.value); } 
-  catch(e){ statusEl.textContent="❌ Login failed! Check credentials."; }
+  catch(e){ statusEl.textContent="❌ Login failed! incorrect email or password."; }
 }
 
 async function loadApp(user){
@@ -343,7 +358,7 @@ async function handleEarn(taskId, rewardAmount, url) {
     const data = doc.exists ? doc.data() : {};
     
     if (data[taskId] === today) {
-        alert("❌ Already claimed today!");
+        alert("❌ Already claimed today! Come back tomorrow");
         return;
     }
     const success = await processReward(taskId, rewardAmount);
@@ -355,7 +370,7 @@ async function handleEarn(taskId, rewardAmount, url) {
 
 async function showPage(p){
   document.querySelectorAll("footer button").forEach(b=>b.classList.remove("active"));
-  document.getElementById("mainHeader").style.display = (p === "home") ? "none" : "block"; // Hide standard header on home
+  document.getElementById("mainHeader").style.display = (p === "home") ? "none" : "block"; 
   
   if(bannerBlurListener) { window.removeEventListener('blur', bannerBlurListener); bannerBlurListener = null; }
 
@@ -419,15 +434,24 @@ async function showPage(p){
   if(p==="earn"){
     mainContent.innerHTML=`
       <div class="ad-container" style="margin-top:10px;">
-        <!-- Banner Box -->
+        <!-- Banner 1 (300x250) -->
         <div class="banner-ad-box" id="bannerWrapper">
             <div class="ad-reward-tag">Earn 0.00205 USDT</div>
             <div id="ad-slot-300-250"></div>
             <div id="bannerOverlay" class="click-overlay"></div>
         </div>
+
+        <!-- Banner 2 (320x50) -->
+        <div class="banner-ad-box banner-small" id="bannerWrapper2">
+            <div class="ad-reward-tag" style="background:#00d2d3; color:#fff;">Earn 0.00205 USDT</div>
+            <div id="ad-slot-320-50"></div>
+            <div id="bannerOverlay2" class="click-overlay"></div>
+        </div>
       </div>
 
       <!-- Smart Links List -->
+      <div class="section-title">Direct Links</div>
+      
       <div class="smart-link-box" onclick="handleEarn('smart1', 0.0008197, 'https://www.effectivegatecpm.com/q5tr5extmy?key=d3bd60a33be82ecf91d6d22b59cd9765')">
         <div style="font-weight:700;">Ad link 1</div>
         <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
@@ -476,52 +500,113 @@ async function showPage(p){
         <div style="font-weight:700;">Ad link 12</div>
         <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
       </div>
+      <div class="smart-link-box" onclick="handleEarn('smart13', 0.0008197, 'https://www.effectivegatecpm.com/rtnc5tpipv?key=496b41f10468a4090855d669ea492d7f')">
+        <div style="font-weight:700;">Ad link 13</div>
+        <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
+      </div>
+      <div class="smart-link-box" onclick="handleEarn('smart14', 0.0008197, 'https://www.effectivegatecpm.com/kqx8gwqs6?key=1eace66dadd273bf954f3e1089333d00')">
+        <div style="font-weight:700;">Ad link 14</div>
+        <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
+      </div>
+      <div class="smart-link-box" onclick="handleEarn('smart15', 0.0008197, 'https://www.effectivegatecpm.com/jt5tz4bsk?key=c8e7b269a5a391bc152ab993558f079b')">
+        <div style="font-weight:700;">Ad link 15</div>
+        <div style="color:#28a745; font-weight:700;">0.0008197 USDT</div>
+      </div>
     `;
     earnBtn.classList.add("active");
 
-    // Ad Scripts
-    const adContainer = document.getElementById('ad-slot-300-250');
-    if(adContainer){
-        adContainer.innerHTML = '';
-        const s1 = document.createElement('script');
-        s1.type = 'text/javascript';
-        s1.text = `atOptions = { 'key' : '290468ba31574258b12173a3560e2bc8', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };`;
-        adContainer.appendChild(s1);
-        const s2 = document.createElement('script');
-        s2.type = 'text/javascript';
-        s2.src = 'https://www.highperformanceformat.com/290468ba31574258b12173a3560e2bc8/invoke.js';
-        adContainer.appendChild(s2);
+    // --- NEW: Iframe Based Injection for Conflict-Free Loading ---
+    function loadAdInIframe(id, key, w, h) {
+        const container = document.getElementById(id);
+        if(!container) return;
+        container.innerHTML = ''; // Clean
+
+        const iframe = document.createElement('iframe');
+        iframe.style.width = w + "px";
+        iframe.style.height = h + "px";
+        iframe.style.border = "none";
+        iframe.style.overflow = "hidden";
+        iframe.scrolling = "no";
+        container.appendChild(iframe);
+
+        // Write the ad script directly inside the iframe
+        const doc = iframe.contentWindow.document;
+        doc.open();
+        doc.write(`<html><body style='margin:0;padding:0;overflow:hidden;'>`);
+        doc.write(`<script type="text/javascript">
+            atOptions = { 'key' : '${key}', 'format' : 'iframe', 'height' : ${h}, 'width' : ${w}, 'params' : {} };
+        <\/script>`);
+        doc.write(`<script type="text/javascript" src="https://www.highperformanceformat.com/${key}/invoke.js"><\/script>`);
+        doc.write(`</body></html>`);
+        doc.close();
     }
+
+    // Load Ads into Isolated Iframes
+    loadAdInIframe('ad-slot-300-250', '290468ba31574258b12173a3560e2bc8', 300, 250);
+    loadAdInIframe('ad-slot-320-50', 'e23699bfd848edbee2eb67dbd5822f42', 320, 50);
     
-    const overlay = document.getElementById('bannerOverlay');
-    const wrapper = document.getElementById('bannerWrapper');
-    const taskId = 'banner1';
+    // --- BANNER LOGIC ---
     const today = new Date().toISOString().split('T')[0];
-    
     const doc = await db.collection("user_ads").doc(auth.currentUser.uid).get();
     const data = doc.exists ? doc.data() : {};
-    
-    const enableBlocker = () => {
-        overlay.style.display = 'block'; 
-        overlay.onclick = (e) => { e.stopPropagation(); alert("❌ Already claimed today!"); };
-    };
 
-    if(data[taskId] === today) { enableBlocker(); } else {
-        overlay.style.display = 'none';
-        let isHovering = false;
-        wrapper.onmouseover = () => isHovering = true;
-        wrapper.onmouseout = () => isHovering = false;
-        
-        const bannerBlurListener = async function() {
-            if(isHovering) {
-                window.removeEventListener('blur', bannerBlurListener);
-                await processReward(taskId, 0.00205);
-                enableBlocker();
-                setTimeout(() => { alert(`✅ Success! You earned 0.00205 USDT.`); }, 1000);
-            }
-        };
-        window.addEventListener('blur', bannerBlurListener);
+    // Elements
+    const wrapper1 = document.getElementById('bannerWrapper');
+    const overlay1 = document.getElementById('bannerOverlay');
+    const wrapper2 = document.getElementById('bannerWrapper2');
+    const overlay2 = document.getElementById('bannerOverlay2');
+
+    // Status Flags
+    let claimed1 = (data['banner1'] === today);
+    let claimed2 = (data['banner2'] === today);
+
+    // Hover Tracking
+    let isHovering1 = false;
+    let isHovering2 = false;
+
+    // --- SETUP BANNER 1 ---
+    const enableBlocker1 = () => {
+        overlay1.style.display = 'block'; 
+        overlay1.onclick = (e) => { e.stopPropagation(); alert("❌️ Already claimed today! Come back tomorrow. "); };
+        claimed1 = true;
+    };
+    if(claimed1) { enableBlocker1(); } else {
+        overlay1.style.display = 'none';
+        wrapper1.onmouseover = () => isHovering1 = true;
+        wrapper1.onmouseout = () => isHovering1 = false;
     }
+
+    // --- SETUP BANNER 2 ---
+    const enableBlocker2 = () => {
+        overlay2.style.display = 'block'; 
+        overlay2.onclick = (e) => { e.stopPropagation(); alert("❌ Already claimed today! Come back tomorrow. "); };
+        claimed2 = true;
+    };
+    if(claimed2) { enableBlocker2(); } else {
+        overlay2.style.display = 'none';
+        wrapper2.onmouseover = () => isHovering2 = true;
+        wrapper2.onmouseout = () => isHovering2 = false;
+    }
+
+    // --- SHARED BLUR LISTENER (Detects Clicks inside Iframes) ---
+    bannerBlurListener = async function() {
+        // Handle Banner 1 Click
+        if(isHovering1 && !claimed1) {
+            await processReward('banner1', 0.00205);
+            enableBlocker1();
+            isHovering1 = false; // Prevent double trigger
+            setTimeout(() => { alert(`✅ Success! You earned 0.00205 USDT.`); }, 1000);
+        }
+
+        // Handle Banner 2 Click
+        if(isHovering2 && !claimed2) {
+            await processReward('banner2', 0.00205); 
+            enableBlocker2();
+            isHovering2 = false; // Prevent double trigger
+            setTimeout(() => { alert(`✅ Success! You earned 0.00205 USDT.`); }, 1000);
+        }
+    };
+    window.addEventListener('blur', bannerBlurListener);
   }
 
   if(p==="wallet"){
